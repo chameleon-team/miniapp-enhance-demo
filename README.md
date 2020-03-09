@@ -1,5 +1,9 @@
 
 ---
+```
+npm i @didi/chameleon-cli@6.0.8 -g
+```
+
 ## 本阶段核心目标：提供仅支持小程序的增强型跨端能力
 http://wiki.intra.xiaojukeji.com/pages/viewpage.action?pageId=322236532
 
@@ -25,3 +29,9 @@ API能力@高星辰
 
 app.cml 提供所有全局配置能力测试
 page.cml 提供页面的配置能力
+
+## API能力、UI能力@高星辰
+
+api.cml 提供测试用例
+ui.cml 提供测试用例
+
