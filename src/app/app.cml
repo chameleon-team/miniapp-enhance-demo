@@ -28,7 +28,26 @@ export default new App();
       "navigationBarBackgroundColor": "#fff",
       "navigationBarTitleText": "Chameleon",
       "navigationBarTextStyle":"black"
-    }
+    },
+    "tabBar": {
+        "color": "#7A7E83",
+        "selectedColor": "#3cc51f",
+        "borderStyle": "black",
+        "backgroundColor": "#ffffff",
+        "list": [
+          {
+            "pagePath": "pages/index/index",
+            "text": "组件",
+            "iconPath": "../assets/images/logo.png",
+            "selectedIconPath": "../assets/images/chameleon.png"
+          },
+          {
+            "pagePath": "pages/index/api",
+            "text": "接口"
+          }
+        ]
+      }
+
   },
   "baidu": {
     "window": {
