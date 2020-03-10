@@ -38,8 +38,6 @@ export default new App();
           {
             "pagePath": "pages/index/index",
             "text": "组件",
-            "iconPath": "../assets/images/logo.png",
-            "selectedIconPath": "../assets/images/chameleon.png"
           },
           {
             "pagePath": "pages/index/api",
