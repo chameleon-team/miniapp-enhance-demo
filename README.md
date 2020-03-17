@@ -31,6 +31,18 @@ API能力@高星辰
 app.cml 提供所有全局配置能力测试
 page.cml 提供页面的配置能力
 
+### 工程配置能力
+
+[微信-project.config.json](https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html)
+
+[百度-project.swan.json](https://smartprogram.baidu.com/docs/develop/devtools/editor_set/)
+
+[qq-小程序-project.config.json]
+
+[tt小程序-project.config.json]
+
+[alipay小程序-暂未找到对应配置]
+
 ### 全局配置能力
 
 以下全局配置能力开发者需要查对应官网看是否支持，这里我们做一个简单总结，如有不对，欢迎指出。
@@ -53,6 +65,24 @@ page.cml 提供页面的配置能力
 | permission                     | 小程序[接口权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)相关设置。 | 是   | 是   | 否                                                         | 否    | 是   | 是   |
 | usingComponents                | 在app.json中声明的组件为全局组件，其他页面可以直接用         | 是   | 否   | 否                                                         | 否    | 否   |      |
 | entranceDeclare                | 聊天位置消息用打车类小程序打开，[详情参考](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/location-message.html) | 是   | 否   | 否                                                         | 否    | 否   |      |
+
+### 生命周期能力
+
+#### 页面生命周期
+
+| 页面生命周期 | 支付宝 | CML  |
+| ------------ | ------ | ---- |
+|              |        |      |
+|              |        |      |
+|              |        |      |
+
+#### 组件生命周期
+
+|      |      |      |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
+|      |      |      |
 
 
 
