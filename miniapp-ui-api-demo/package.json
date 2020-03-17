@@ -1,0 +1,17 @@
+{
+  "name": "miniapp-enhance-demo",
+  "version": "1.0.0",
+  "description": "A chameleon project",
+  "author": "",
+  "private": true,
+  "scripts": {},
+  "license": "MIT",
+  "dependencies": {
+    "@didi/chameleon": "^7.0.0",
+    "@didi/chameleon-api": "^3.0.1-alpha.1",
+    "@didi/chameleon-bridge": "^0.2.0",
+    "@didi/chameleon-store": "^2.0.0",
+    "@didi/chameleon-ui": "^3.0.0",
+    "@didi/chameleon-ui-builtin": "^3.0.0"
+  }
+}
