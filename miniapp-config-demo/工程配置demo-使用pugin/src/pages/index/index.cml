@@ -1,0 +1,69 @@
+<template>
+  <view>
+    <view>使用插件</view>
+    <txv-video vid="e0354z3cqjp" playerid="txv1"></txv-video>
+  </view>
+</template>
+
+<script>
+class Index  {
+  data = {
+    title: "chameleon",
+    items:[],
+    currentItem:0,
+    chameleonSrc: require('../../assets/images/chameleon.png')
+  }
+  methods = {
+    
+  }
+  created(){
+    
+  }
+}
+
+export default new Index();
+
+</script>
+<style>
+
+.scroller-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+</style>
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {
+      "txv-video": "plugin://tencentvideo/video"
+    }
+  },
+  "wx": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  },
+  "alipay": {
+    "defaultTitle": "index",
+    "pullRefresh": false,
+    "allowsBounceVertical": "YES",
+    "titleBarColor": "#ffffff"
+  },
+  "baidu": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "index",
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50
+  },
+  "qq": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  }
+}
+</script>

@@ -1,0 +1,96 @@
+<template>
+  <view class="demo-com">
+    <text class="title">{{title}}</text>
+    <view c-bind:tap="handleTap">跳转到subpage1</view>
+
+    <view c-bind:tap="handleTap2">subComponent</view>
+    <view c-if="{{title === 'subpage'}}"><text>subpage</text></view>
+  </view>
+</template>
+
+<script>
+import cml from "chameleon-api"
+class DemoCom {
+  props = {
+    title: {
+      type: String,
+      default: ''
+    },
+    imageSrc: {
+      type: String,
+      default: ''
+    },
+  }
+
+  data = {
+  }
+
+  computed = {
+  }
+
+  watch  = {
+  }
+
+  methods = {
+    handleTap(){
+      console.log('tap')
+      cml.navigateTo({
+        path: '/pages/subpage/page1/page1',
+      })
+    },
+    handleTap2(){
+      console.log('tap')
+      cml.navigateTo({
+        path: '/subpage2/page2/page2',
+      })
+    }
+  }
+
+  beforeCreate() {
+  }
+
+  created() {
+    console.log('sub-demo-comp created')
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new DemoCom();
+</script>
+<style>
+.demo-com {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.title {
+  align-self: center;
+  color: #61c7fc;
+  font-size: 72cpx;
+  margin-top: 160cpx;
+  margin-bottom: 20cpx;
+}
+.logo {
+  width: 150cpx;
+  height: 150cpx;
+  margin-top: 100cpx;
+}
+</style>
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  }
+}
+</script>

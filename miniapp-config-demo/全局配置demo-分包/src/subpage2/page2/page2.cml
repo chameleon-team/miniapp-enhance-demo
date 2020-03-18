@@ -1,0 +1,64 @@
+<template>
+        <view class="scroller-wrap">
+          subpage2
+          <view c-bind:tap="handleTap">handleTap</view>
+          <sub-demo-com></sub-demo-com>
+          <multi></multi>
+        </view>
+</template>
+
+<script>
+import subUtils from '../../utils/utils.js'
+class Index  {
+  data = {
+    title: "subpage",
+    chameleonSrc: require('../../assets/images/chameleon.png')
+  }
+  methods = {
+    handleTap(){
+      console.log('hadnleTap')
+    }
+  }
+}
+
+export default new Index();
+
+</script>
+<style>
+.scroller-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+</style>
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {
+      "sub-demo-com": "../components/sub-demo-com/sub-demo-com",
+      "multi":"../components/multi/multi"
+    }
+  },
+  "wx": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  },
+  "alipay": {
+    "defaultTitle": "index",
+    "pullRefresh": false,
+    "allowsBounceVertical": "YES",
+    "titleBarColor": "#ffffff"
+  },
+  "baidu": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "index",
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50
+  }
+}
+</script>

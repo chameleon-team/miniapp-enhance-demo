@@ -1,0 +1,55 @@
+<template>
+  <app router-config="{{routerConfig}}"></app>
+</template>
+
+<script>
+import routerConfig from '../router.config.json';
+
+
+class App {
+  data = {
+    routerConfig
+  }
+  created(res) {
+  }
+}
+
+export default new App();
+
+</script>
+
+<style>
+
+</style>
+
+<script cml-type="json">
+{
+  "wx": {
+    "window": {
+      "backgroundTextStyle":"light",
+      "navigationBarBackgroundColor": "#fff",
+      "navigationBarTitleText": "Chameleon",
+      "navigationBarTextStyle":"black"
+    },
+    "plugins": {
+      "tencentvideo": {
+        "version": "1.3.9",
+        "provider": "wxa75efa648b60994b"
+      }
+    }
+  },
+  "baidu": {
+    "window": {
+      "backgroundTextStyle": "light",
+      "navigationBarBackgroundColor": "#ffffff",
+      "navigationBarTitleText": "Chameleon",
+      "navigationBarTextStyle": "black"
+    }
+  },
+  "alipay": {
+      "window": {
+        "defaultTitle": "Chameleon"
+      }
+  }
+}
+</script>

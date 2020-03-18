@@ -1,0 +1,99 @@
+<template>
+  <view class="demo-com">
+   <view>this is component</view>
+  </view>
+</template>
+
+<script>
+import cml from "chameleon-api"
+class DemoCom {
+  props = {
+    title: {
+      type: String,
+      default: ''
+    },
+    imageSrc: {
+      type: String,
+      default: ''
+    },
+  }
+
+  data = {
+  }
+
+  computed = {
+  }
+
+  watch  = {
+  }
+
+  methods = {
+    
+  }
+
+  beforeCreate(){
+    console.log("Component beforeCreated")
+  }
+  created(res) {
+    console.log("Component Created")
+  }
+  beforeMount() {
+    console.log("Component beforeMount")
+  }
+
+  mounted() {
+    console.log("Component mounted")
+  }
+
+  beforeDestroy() {
+    console.log("Component beforeDestroy")
+  }
+
+  destroyed() {
+    console.log("Component destroyed")
+  }
+  //CML组件生命周期没有对应映射的时候，可以将其他生命周期写这里
+  pageLifetimes =  {
+    show: function() {
+      // 页面被展示
+      console.log('页面显示，组件show')
+    },
+    hide: function() {
+      // 页面被隐藏
+      console.log('页面隐藏，组件hide')
+    },
+    resize: function(size) {
+      // 页面尺寸变化
+      console.log('页面尺寸变化，组件resize')
+    }
+  }
+}
+
+export default new DemoCom();
+</script>
+<style>
+.demo-com {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.title {
+  align-self: center;
+  color: #61c7fc;
+  font-size: 72cpx;
+  margin-top: 160cpx;
+  margin-bottom: 20cpx;
+}
+.logo {
+  width: 150cpx;
+  height: 150cpx;
+  margin-top: 100cpx;
+}
+</style>
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  }
+}
+</script>

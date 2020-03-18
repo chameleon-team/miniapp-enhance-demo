@@ -1,0 +1,162 @@
+<template>
+  <page title="chameleon">
+      <scroller height="{{-1}}">
+        <view class="scroller-wrap">
+          <text class="headline">示例介绍</text>
+          <view class="common">
+            <image src="{{avatar}}" style="width:100cpx;height:100cpx"></image>
+            <text class="avatar-text" c-bind:tap="getOpenID">点击获取openId</text>
+          </view>
+          <!-- 上传图片 -->
+          <view class='common'>
+            <text class="avatar-text" c-bind:tap="uploadImage">上传图片</text>
+            <text class="avatar-text" c-bind:tap="jump('/pages/storage-console/storage-console')">跳转到图片信息页面</text>
+          </view>
+          <!-- 操作数据库 -->
+          <view class='common'>
+            <text class="avatar-text" c-bind:tap="jump('/pages/data-base/data-base')">前端操作数据库</text>
+          </view>
+          <!-- 即时通信 -->
+          <view class='common'>
+            <text class="avatar-text" c-bind:tap="jump('/pages/im/im')">即时通信demo</text>
+          </view>
+          <!-- 新建云函数 -->
+          <view class='common'>
+            <text class="avatar-text" c-bind:tap="jump('/pages/add-function/add-function')">新建云函数</text>
+          </view>
+          <!-- 云调用 -->
+          <view class='common'>
+            <text class="avatar-text" c-bind:tap="jump('/pages/openapi/openapi')">云调用</text>
+          </view>
+        </view>
+      </scroller>
+  </page>
+</template>
+
+<script>
+import store from '../../store/index.js';
+import common from '../../components/common/cloud.interface'
+import cml from 'chameleon-api';
+let cloud = common.getCloud();
+class Index  {
+  data = {
+    title: "chameleon",
+    chameleonSrc: require('../../assets/images/chameleon.png'),
+    avatar:require('../../assets/images/user-unlogin.png'),
+    openid:''
+  }
+  methods = {
+    getOpenID(){
+      cloud.callFunction({
+        name: 'login',
+        data: {},
+        success: res => {
+          console.log('[云函数] [login] user openid: ', res.result.openid);
+          this.openid = res.result.openid;
+          store.commit('getOpenId',res.result)
+          cml.navigateTo({
+            path:'/pages/user-console/user-console'
+          })
+          
+        },
+        fail: err => {
+          console.error('[云函数] [login] 调用失败', err)
+          
+        }
+      })
+    },
+    jump(path){
+      cml.navigateTo({
+        path
+      })
+    },
+    uploadImage(){
+      cml.chooseImage({type:"choice"}).then((res) => {
+        const filePath = res.tempFilePaths[0];
+        console.log('filePath',filePath)
+        const cloudPath = 'cml-x-image' + filePath.match(/\.[^.]+?$/)[0]
+        cloud.uploadFile({
+          cloudPath,
+          filePath,
+          success: res => {
+            console.log('[上传文件] 成功：', res)
+            store.commit('getStorage',{
+              fileID:res.fileID,
+              cloudPath,
+              imagePath:filePath
+            })
+            cml.navigateTo({
+              path:'/pages/storage-console/storage-console'
+            })
+          },
+          fail: e => {
+            console.error('[上传文件] 失败：', e)
+          },
+          complete: () => {
+          }
+        })
+      })
+    },
+    
+  }
+}
+
+export default new Index();
+
+</script>
+<style>
+
+.scroller-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.common{
+  border:1px solid rgba(0, 0, 0, 0.1);
+  padding:40cpx;
+  display:flex;
+  flex-direction:row;
+  justify-content: space-around;
+  align-items: center;
+  width:750cpx;
+  margin-bottom:30cpx;
+}
+.avatar-text{
+  color:#007aff
+}
+
+</style>
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {
+      "demo-com": "/components/demo-com/demo-com"
+    }
+  },
+  "wx": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  },
+  "alipay": {
+    "defaultTitle": "index",
+    "pullRefresh": false,
+    "allowsBounceVertical": "YES",
+    "titleBarColor": "#ffffff"
+  },
+  "baidu": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "index",
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50
+  },
+  "qq": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  }
+}
+</script>

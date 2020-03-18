@@ -1,0 +1,86 @@
+<template>
+  <view>
+        <view class="scroller-wrap">
+          开发插件
+        </view>
+        <origin-navigator id="nav" url="plugin://hello-plugin/hello-page">
+          Go to Plugin page 
+        </origin-navigator>
+        <origin-button id="add" bindtap="addItem">Add item</origin-button>
+        <hello-list items="{{ items }}" ></hello-list>
+  </view>
+</template>
+
+<script>
+var plugin = requirePlugin("hello-plugin");
+class Index  {
+  data = {
+    title: "chameleon",
+    items:[],
+    currentItem:0,
+    chameleonSrc: require('../../assets/images/chameleon.png')
+  }
+  methods = {
+    handleTap(){
+    },
+    addItem() {
+      // this.data.items.push(this.data.currentItem++);
+      // let newItems = this.
+      
+      this.currentItem = this.currentItem + 1;
+      this.items = this.items.concat(this.currentItem);
+      console.log(this.items)
+    }
+  }
+  created(){
+    plugin.sayHello();
+    console.log('onload')
+  }
+}
+
+export default new Index();
+
+</script>
+<style>
+
+.scroller-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+</style>
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {
+      "hello-list": "plugin://hello-plugin/hello-component"
+    }
+  },
+  "wx": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  },
+  "alipay": {
+    "defaultTitle": "index",
+    "pullRefresh": false,
+    "allowsBounceVertical": "YES",
+    "titleBarColor": "#ffffff"
+  },
+  "baidu": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "index",
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50
+  },
+  "qq": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  }
+}
+</script>

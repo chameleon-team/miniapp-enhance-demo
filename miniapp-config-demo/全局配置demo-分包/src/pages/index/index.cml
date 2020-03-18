@@ -1,0 +1,78 @@
+<template>
+  <view class="page-demo">
+    <view c-bind:tap="handleTap('/subpage2/page2/page2')">/subpage2/page2/page2</view>
+    <view c-bind:tap="handleTap('/pages/subpage/page1/page1')">pages/subpage/page1/page1</view>
+    <view>这个跳转会预加载 subpage2 这个分包</view>
+  </view>
+</template>
+
+<script>
+import cml from 'chameleon-api'
+import store from '../../store/index.js'
+class Input {
+  data = {
+    isfocus: false,
+    inputValue: '',
+    eventName: '触发的事件名称',
+    winHeight: 0
+  }
+  computed = {}
+  watch = {}
+  methods = {
+    inputEvent(e) {
+      this.inputValue = e.detail.value;
+    },
+    testEvent(e) {
+      this.eventName = e.type
+    },
+    bindblurevent() {
+      console.log('blur')
+      this.isfocus = false;
+    },
+    handleTap(path){
+      cml.navigateTo({
+        path
+      })
+    }
+  }
+  mounted(res) {
+    console.log('mounted')
+    setTimeout(() => {
+      this.isfocus = true;
+    }, 300);
+  }
+};
+export default new Input();
+</script>
+<style scoped>
+ .page-demo {
+   background: #FAFAFA;
+   position: absolute;
+   top:0;
+   bottom:0;
+   left:0;
+   right:0;
+ }
+ .title-text {
+   color: #999;
+   margin: 30cpx 20cpx 10cpx;
+   display: block;
+   font-size: 28cpx;
+ }
+ .end-item {
+   margin-bottom: 40cpx;
+   position: relative;
+   border-top: 1px solid #D9D9D9;
+   border-bottom: 1px solid #D9D9D9;
+ }
+.input-wrap  {
+   position: relative;
+   border-top: 1px solid #D9D9D9;
+   border-bottom: 1px solid #D9D9D9;
+ }
+</style>
+<script cml-type="json">
+{
+  "base": {}
+}
+</script>

@@ -1,0 +1,72 @@
+{
+  "mode": "history",
+  "domain": "https://www.chameleon.com",
+  "routes":[
+    {
+      "url": "/cml/h5/index",
+      "path": "/pages/index/index",
+      "name": "首页",
+      "mock": "index.php"
+    },
+    {
+      "url": "/cml/h5/user-console",
+      "path": "/pages/user-console/user-console",
+      "name": "用户",
+      "mock": "index.php"
+    },
+    {
+      "url": "/cml/h5/storage-console",
+      "path": "/pages/storage-console/storage-console",
+      "name": "存储",
+      "mock": "index.php"
+    },
+    {
+      "url": "/cml/h5/data-base",
+      "path": "/pages/data-base/data-base",
+      "name": "存储",
+      "mock": "index.php"
+    },
+    {
+      "url": "/cml/h5/im",
+      "path": "/pages/im/im",
+      "name": "即时通讯",
+      "mock": "index.php"
+    },
+    {
+      "url": "/cml/h5/add-function",
+      "path": "/pages/add-function/add-function",
+      "name": "即时通讯",
+      "mock": "index.php"
+    },
+    {
+      "url": "/cml/h5/room",
+      "path": "/pages/room/room",
+      "name": "即时通讯",
+      "mock": "index.php"
+    },
+    {
+      "url": "/cml/h5/openapi",
+      "path": "/pages/openapi/openapi",
+      "name": "即时通讯",
+      "mock": "index.php"
+    },
+    {
+      "url": "/cml/h5/serverapi",
+      "path": "/pages/serverapi/serverapi",
+      "name": "即时通讯",
+      "mock": "index.php"
+    },
+    {
+      "url": "/cml/h5/cloudid",
+      "path": "/pages/cloudid/cloudid",
+      "name": "即时通讯",
+      "mock": "index.php"
+    },
+    {
+      "url": "/cml/h5/callback",
+      "path": "/pages/callback/callback",
+      "name": "即时通讯",
+      "mock": "index.php"
+    }
+  ]
+}

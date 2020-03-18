@@ -1,0 +1,580 @@
+<template>
+  <view class="container" >
+    <view class="chatroom">
+      <view class="header">
+        <!-- display number of people in the room -->
+        <view class="left"></view>
+        <!-- room name -->
+        <view class="middle">{{groupName}}</view>
+        <!-- reserved -->
+        <view class="right"></view>
+      </view>
+    <origin-scroll-view 
+        class="body" 
+        scroll-y 
+        scroll-with-animation="{{scrollWithAnimation}}"
+        scroll-top="{{scrollTop}}" 
+        scroll-into-view="{{scrollToMessage}}"
+        bindscrolltoupper="onScrollToUpper"
+      >
+        <view 
+          c-for="{{chats}}"
+          c-key="{{item._id}}"
+          id="item-{{index}}"
+          class="message {{openId == item._openid ? 'message__self' : ''}}"
+        >
+          <image 
+            class="avatar"
+            src="{{item.avatar}}"
+            mode="scaleToFill"
+            style="width:100cpx;height:100cpx;"
+          ></image> 
+          <view class="main">
+            <view class="nickname">{{item.nickName}}</view>
+            <block c-if="{{item.msgType === 'image'}}">
+              <view class="image-wrapper">
+                <view class="loading" c-if="{{item.writeStatus > -1}}">{{item.writeStatus}}%</view>
+                <image 
+                  src="{{item.tempFilePath || item.imgFileID}}" 
+                  data-fileid="{{item.tempFilePath || item.imgFileID}}" 
+                  class="image-content" 
+                  style="{{item.imgStyle}}"
+                  mode="scallToFill"
+                  style="width:100cpx;height:100cpx;" 
+                  bindtap="onMessageImageTap"></image>
+              </view>
+            </block>
+            <block c-else>
+              <view class="text-wrapper">
+                <view class="loading" c-if="{{item.writeStatus === 'pending'}}">···</view>
+                <view class="text-content">{{item.textContent}}</view>
+              </view>
+            </block>
+          </view>
+        </view>
+    </origin-scroll-view>
+      <!-- message sender -->
+      <view class="footer">
+        <view class="message-sender login-status" c-if="{{userInfo}}">
+          <origin-input 
+            class="text-input"
+            type="text"
+            confirm-type="send"
+            bindconfirm="onConfirmSendText"
+            cursor-spacing="20"
+            value="{{textInputValue}}"
+            style="width:640cpx;height:100cpx;border:2cpx black solid;"
+          ></origin-input>
+        </view>
+      </view>
+      <view class="footer">
+        <view class="message-sender" c-if="{{!userInfo}}">
+          <button 
+            open-type="getUserInfo" 
+            c-bind:getuserinfo="onGetUserInfo"
+            class="userinfo"
+            text="请先登录后参与聊天"
+          ></button>
+        </view>
+      </view>
+
+</view>
+  </view>
+</template>
+
+<script>
+import cml from 'chameleon-api';
+import store from '../../store/index.js'
+import common from '../../components/common/cloud.interface'
+let cloud = common.getCloud();
+const FATAL_REBUILD_TOLERANCE = 10
+const SETDATA_SCROLL_TO_BOTTOM = {
+  scrollTop: 100000,
+  scrollWithAnimation: true,
+}
+
+class Room   {
+
+  data = {
+    logged:false,
+    userInfo:null,
+    avatarUrl:require('../../assets/images/user-unlogin.png'),
+    imgSrc:require('../../assets/images/photo.png'),
+    collection:'chatroom',
+    // envId: 'release-f8415a',
+    chats:[],
+    scrollTop:0,
+    textInputValue: '',
+    hasKeyboard: false,
+    groupId:'demo',
+    groupName:'聊天室'
+  }
+
+  computed = {
+    ...store.mapState({
+      openid: state => state.openid,
+    })
+  }
+
+  watch  = {
+  }
+
+  methods = {
+    async initRoom() {
+      this.try(async () => {
+        await this.initOpenID()
+
+        const { envId, collection } = this;
+        console.log('envId',envId,collection)
+        const db = this.db = cloud.database({
+          env: envId,
+        })
+        const _ = db.command
+        //注意要新建 chatroom这个集合，集合必须在云开发控制台中创建,参考 data-base.cml
+        const { data: initList } = await db.collection(collection).where(this.mergeCommonCriteria()).orderBy('sendTimeTS', 'desc').get()
+        debugger;
+        console.log('init query chats', initList)
+        this.chats = initList.reverse();
+        this.scrollTop = 10000;
+        // this.setData({
+        //   chats: initList.reverse(),
+        //   scrollTop: 10000,
+        // })
+
+        // this.initWatch(initList.length ? {
+        //   sendTimeTS: _.gt(initList[initList.length - 1].sendTimeTS),
+        // } : {})
+      }, '初始化失败')
+    },
+    async initWatch(criteria) {
+      this.try(() => {
+        const { collection } = this
+        const db = this.db
+        const _ = db.command
+
+        console.warn(`开始监听`, criteria)
+        this.messageListener = db.collection(collection).where(this.mergeCommonCriteria(criteria)).watch({
+          onChange: this.onRealtimeMessageSnapshot.bind(this),
+          onError: e => {
+            if (!this.inited || this.fatalRebuildCount >= FATAL_REBUILD_TOLERANCE) {
+              this.showError(this.inited ? '监听错误，已断开' : '初始化监听失败', e, '重连', () => {
+                this.initWatch(this.data.chats.length ? {
+                  sendTimeTS: _.gt(this.data.chats[this.data.chats.length - 1].sendTimeTS),
+                } : {})
+              })
+            } else {
+              this.initWatch(this.data.chats.length ? {
+                sendTimeTS: _.gt(this.data.chats[this.data.chats.length - 1].sendTimeTS),
+              } : {})
+            }
+          },
+        })
+      }, '初始化监听失败')
+    },
+    async initOpenID() {
+      return this.try(async () => {
+        const openid = await this.getOpenID()
+        store.commit('getOpenId',{openid})
+        // this.setData({
+        //   openId,
+        // })
+      }, '初始化 openId 失败')
+    },
+    async onScrollToUpper() {
+      if (this.db && this.chats.length) {
+        const { collection } = this;
+        const _ = this.db.command
+        const { data } = await this.db.collection(collection).where(this.mergeCommonCriteria({
+          sendTimeTS: _.lt(this.data.chats[0].sendTimeTS),
+        })).orderBy('sendTimeTS', 'desc').get()
+        this.chats.unshift(...data.reverse())
+        this.chats = this.chats;
+        this.scrollToMessage = `item-${data.length}`;
+        this.scrollWithAnimation = false;
+      }
+    },
+    onRealtimeMessageSnapshot(snapshot) {
+      console.warn(`收到消息`, snapshot)
+
+      if (snapshot.type === 'init') {
+        this.chats = [...this.chats,...[...snapshot.docs].sort((x, y) => x.sendTimeTS - y.sendTimeTS)]
+        // this.setData({
+        //   chats: [
+        //     ...this.data.chats,
+        //     ...[...snapshot.docs].sort((x, y) => x.sendTimeTS - y.sendTimeTS),
+        //   ],
+        // })
+        this.scrollToBottom()
+        this.inited = true
+      } else {
+        let hasNewMessage = false
+        let hasOthersMessage = false
+        const chats = [...this.data.chats]
+        for (const docChange of snapshot.docChanges) {
+          switch (docChange.queueType) {
+            case 'enqueue': {
+              hasOthersMessage = docChange.doc._openid !== this.data.openId
+              const ind = chats.findIndex(chat => chat._id === docChange.doc._id)
+              if (ind > -1) {
+                if (chats[ind].msgType === 'image' && chats[ind].tempFilePath) {
+                  chats.splice(ind, 1, {
+                    ...docChange.doc,
+                    tempFilePath: chats[ind].tempFilePath,
+                  })
+                } else chats.splice(ind, 1, docChange.doc)
+              } else {
+                hasNewMessage = true
+                chats.push(docChange.doc)
+              }
+              break
+            }
+          }
+        }
+        this.setData({
+          chats: chats.sort((x, y) => x.sendTimeTS - y.sendTimeTS),
+        })
+        if (hasOthersMessage || hasNewMessage) {
+          this.scrollToBottom()
+        }
+      }
+    },
+    scrollToBottom(force) {
+      if (force) {
+        console.log('force scroll to bottom')
+        // this.scrollTop = 100000;
+        // this.scrollWithAnimation = true;
+        this.setData(SETDATA_SCROLL_TO_BOTTOM)
+        return false;
+      }
+
+      this.createSelectorQuery().select('.body').boundingClientRect(bodyRect => {
+        this.createSelectorQuery().select(`.body`).scrollOffset(scroll => {
+          if (scroll.scrollTop + bodyRect.height * 3 > scroll.scrollHeight) {
+            console.log('should scroll to bottom')
+            this.scrollTop = 100000;
+            this.scrollWithAnimation = true;
+            // this.setData(SETDATA_SCROLL_TO_BOTTOM)
+          }
+        }).exec()
+      }).exec()
+    },
+    getOpenID: async function() {
+      if (this.openid) {
+        return this.openid
+      }
+
+      const { result } = await cloud.callFunction({
+        name: 'login',
+      })
+
+      return result.openid
+    },
+    mergeCommonCriteria(criteria) {
+      return {
+        groupId: this.groupId,
+        ...criteria,
+      }
+    },
+    onGetUserInfo: function(e) {
+      if (!this.logged && e.detail.userInfo) {
+        console.log('onGetUserInfo',e);
+        this.logged = true;
+        this.avatarUrl = e.detail.userInfo.avatarUrl;
+        this.userInfo = e.detail.userInfo;
+        //登陆以后开始初始化聊天室
+        this.initRoom()
+      }
+    },
+    async try(fn, title) {
+      try {
+        await fn()
+      } catch (e) {
+        this.showError(title, e)
+      }
+    },
+    showError(title, content, confirmText, confirmCallback) {
+      console.error(title, content)
+    },
+    async onConfirmSendText(e) {
+      this.try(async () => {
+        if (!e.detail.value) {
+          return
+        }
+        this.textInputValue = e.detail.value
+
+        const { collection } = this
+        const db = this.db
+        const _ = db.command
+
+        const doc = {
+          _id: `${Math.random()}_${Date.now()}`,
+          groupId: this.groupId,
+          avatar: this.userInfo.avatarUrl,
+          nickName: this.userInfo.nickName,
+          msgType: 'text',
+          textContent: e.detail.value,
+          sendTime: new Date(),
+          sendTimeTS: Date.now(), // fallback
+        }
+
+        debugger;
+        this.textInputValue = '';
+        this.chats = [...this.chats,{...doc,_openid:this.openid,writeStatus: 'pending'}]
+        
+        this.scrollToBottom(true)
+
+        await db.collection(collection).add({
+          data: doc,
+        })
+        this.chats = this.chats.map(chat => {
+          if (chat._id === doc._id) {
+            return {
+              ...chat,
+              writeStatus: 'written',
+            }
+          } else return chat
+        });
+      }, '发送文字失败')
+    },
+  }
+
+  beforeCreate(query) {
+  }
+
+  created(query) {
+
+  }
+
+  beforeMount(query) {
+  }
+
+  onShow() {
+  }
+
+  mounted() {
+  }
+
+  onHide() {
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new Room();
+</script>
+
+<style>
+.container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top: 80rpx;
+  padding-bottom: 30rpx;
+}
+.login-status{
+  display:flex;
+  flex-direction:row;
+  justify-content: space-between;
+}
+.chatroom {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  flex-basis: fit-content;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #ddd;
+  padding: 20rpx 0 30rpx;
+  font-size: 30rpx;
+  /* background: rgb(34, 187, 47);
+  color: rgba(255, 255, 255, 1) */
+  /* font-family: 'Microsoft YaHei' */
+}
+
+.left {
+  flex: 1;
+}
+
+.middle {
+  flex: 2;
+  text-align: center;
+}
+
+.right {
+  flex: 1;
+}
+
+.body {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  background: rgb(237,237,237);
+  padding-bottom: 16rpx;
+}
+
+.message {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  margin: 12rpx 0;
+}
+
+.message.message__self {
+  flex-direction: row-reverse;
+}
+
+.avatar {
+  position: relative;
+  top: 5rpx;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 5rpx;
+  margin: 15rpx;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.body .message.message__self .main {
+  align-items: flex-end;
+}
+
+.body .message .nickname {
+  font-size: 24rpx;
+  color: #444;
+}
+
+.body .message .text-content {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background-color: #fff;
+  margin: 2px 0 0 0;
+  padding: 4px 10px;
+  font-size: 30rpx;
+  display: inline-block;
+}
+
+.body .message.message__self .text-content {
+  background-color: paleturquoise;
+}
+
+.body .message .text-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 80%;
+}
+
+.body .message.message__self .text-wrapper .loading{
+  font-size: 16rpx;
+  margin-right: 18rpx;
+}
+
+.body .message .image-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.body .message .image-content {
+  max-width: 240rpx;
+  max-height: 240rpx;
+}
+
+.body .message.message__self .image-wrapper .loading {
+  font-size: 20rpx;
+  margin-right: 18rpx;
+}
+
+.footer {
+  flex-basis: fit-content;
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid #ddd;
+  font-size: 10rpx;
+  padding: 20rpx 30rpx;
+  background: rgb(246,246,246);
+}
+
+.message-sender {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.text-input {
+  flex: 1;
+  font-size: 16px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 3px 6px;
+  margin: 0 10px 0 5px;
+  background: #fff;
+}
+
+.btn-send-image {
+  width: 50rpx;
+  height: 50rpx;
+  align-self: center;
+}
+
+button {
+  font-size: 30rpx;
+}
+
+button.userinfo {
+  background: darkturquoise;
+  color: aliceblue;
+  padding: 0 100rpx;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+}
+
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  },
+  "qq": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  },
+  "wx": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  },
+  "alipay": {
+    "defaultTitle": "index",
+    "pullRefresh": false,
+    "allowsBounceVertical": "YES",
+    "titleBarColor": "#ffffff"
+  },
+  "baidu": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "index",
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50
+  }
+}
+</script>

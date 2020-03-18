@@ -1,0 +1,112 @@
+<template>
+  <app router-config="{{routerConfig}}"></app>
+</template>
+
+<script>
+import routerConfig from '../router.config.json';
+
+class App {
+  data = {
+    routerConfig
+  }
+  beforeCreate(){
+    console.log("App beforeCreated")
+  }
+  created(res) {
+    console.log("App Created")
+  }
+  beforeMount() {
+    console.log("App beforeMount")
+  }
+
+  mounted() {
+    console.log("App mounted")
+  }
+
+  beforeDestroy() {
+    console.log("App beforeDestroy")
+  }
+
+  destroyed() {
+    console.log("App destroyed")
+  }
+  //小程序端应用的其他生命周期
+  onPageNotFound(){
+    console.log('onPageNotFound')
+  }
+  onError(){
+    console.log('onPageNotFound')
+  }
+}
+
+export default new App();
+//需要注意多个分包复用同一个页面这样的情况
+</script>
+
+<style>
+
+</style>
+
+<script cml-type="json">
+{
+  "wx": {
+    "window": {
+      "backgroundTextStyle":"light",
+      "navigationBarBackgroundColor": "#fff",
+      "navigationBarTitleText": "Chameleon",
+      "navigationBarTextStyle":"black"
+    }
+  },
+  "baidu": {
+    "window": {
+      "backgroundTextStyle": "light",
+      "navigationBarBackgroundColor": "#ffffff",
+      "navigationBarTitleText": "Chameleon",
+      "navigationBarTextStyle": "black"
+    },
+    "subPackages":[{
+      "root":"pages/subpage",
+      "pages":[
+          "page1/page1"
+        ]
+      },
+      {
+        "root":"subpage2",
+        "pages":[
+          "page2/page2"
+        ]
+      }
+    ],
+    "preloadRule": {
+      "pages/index/index": {
+        "network": "all",
+        "packages": ["pages/subpage"]
+      }
+    }
+  },
+  "alipay": {
+      "window": {
+        "defaultTitle": "Chameleon"
+      },
+      "subPackages":[{
+        "root":"pages/subpage",
+        "pages":[
+          "page1/page1"
+        ]
+      },
+      {
+        "root":"subpage2",
+        "pages":[
+          "page2/page2"
+        ]
+      }
+    ],
+    "preloadRule": {
+      "pages/index/index": {
+        "network": "all",
+        "packages": ["pages/subpage"]
+      }
+    }
+  }
+}
+</script>

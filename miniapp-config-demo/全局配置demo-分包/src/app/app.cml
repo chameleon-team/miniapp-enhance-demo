@@ -1,0 +1,108 @@
+<template>
+  <app router-config="{{routerConfig}}"></app>
+</template>
+
+<script>
+import routerConfig from '../router.config.json';
+
+class App {
+  data = {
+    routerConfig
+  }
+  created(res) {
+  }
+}
+
+export default new App();
+//需要注意多个分包复用同一个页面这样的情况
+</script>
+
+<style>
+
+</style>
+
+<script cml-type="json">
+{
+  "wx": {
+    "window": {
+      "backgroundTextStyle":"light",
+      "navigationBarBackgroundColor": "#fff",
+      "navigationBarTitleText": "Chameleon",
+      "navigationBarTextStyle":"black"
+    },
+    "subPackages":[{
+      "root":"pages/subpage",
+      "pages":[
+        "page1/page1"
+      ]
+    },
+    {
+      "root":"subpage2",
+      "pages":[
+        "page2/page2"
+      ]
+    }],
+    "preloadRule": {
+      "pages/index/index": {
+        "network": "all",
+        "packages": ["pages/subpage"]
+      },
+      "pages/subpage/page1/page1": {
+        "network": "all",
+        "packages": ["subpage2"]
+      }
+    }
+  },
+  "baidu": {
+    "window": {
+      "backgroundTextStyle": "light",
+      "navigationBarBackgroundColor": "#ffffff",
+      "navigationBarTitleText": "Chameleon",
+      "navigationBarTextStyle": "black"
+    },
+    "subPackages":[{
+      "root":"pages/subpage",
+      "pages":[
+          "page1/page1"
+        ]
+      },
+      {
+        "root":"subpage2",
+        "pages":[
+          "page2/page2"
+        ]
+      }
+    ],
+    "preloadRule": {
+      "pages/index/index": {
+        "network": "all",
+        "packages": ["pages/subpage"]
+      }
+    }
+  },
+  "alipay": {
+      "window": {
+        "defaultTitle": "Chameleon"
+      },
+      "subPackages":[{
+        "root":"pages/subpage",
+        "pages":[
+          "page1/page1"
+        ]
+      },
+      {
+        "root":"subpage2",
+        "pages":[
+          "page2/page2"
+        ]
+      }
+    ],
+    "preloadRule": {
+      "pages/index/index": {
+        "network": "all",
+        "packages": ["pages/subpage"]
+      }
+    }
+  }
+}
+</script>

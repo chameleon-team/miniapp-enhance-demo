@@ -1,0 +1,120 @@
+<template>
+  <!--index.wxml-->
+<view class="container">
+
+  <view class="uploader">
+    <text c-bind:tap="jump('/pages/serverapi/serverapi')">服务端调用</text>
+  </view>
+
+  <view class="uploader">
+    <text c-bind:tap="jump('/pages/cloudid/cloudid')">开放数据调用</text>
+  </view>
+
+  <view class="uploader">
+    <text c-bind:tap="jump('/pages/callback/callback')">消息推送</text>
+  </view>
+
+</view>
+
+</template>
+
+<script>
+import cml from 'chameleon-api';
+
+class Openapi   {
+
+  data = {
+  }
+
+  computed = {
+  }
+
+  watch  = {
+  }
+
+  methods = {
+    jump(path){
+      cml.navigateTo({
+        path
+      })
+    }
+  }
+
+  beforeCreate(query) {
+  }
+
+  created(query) {
+    console.log('query',query)
+  }
+
+  beforeMount(query) {
+  }
+
+  onShow() {
+  }
+
+  mounted() {
+  }
+
+  onHide() {
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new Openapi();
+</script>
+
+<style>
+@import "../../style/guide.css";
+.uploader{
+  border:1px solid rgba(0, 0, 0, 0.1);
+  padding:40cpx;
+  display:flex;
+  flex-direction:row;
+  justify-content: space-around;
+  align-items: center;
+  width:750cpx;
+  margin-bottom:30cpx;
+}
+.black {
+  color: black;
+}
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  },
+  "qq": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  },
+  "wx": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  },
+  "alipay": {
+    "defaultTitle": "index",
+    "pullRefresh": false,
+    "allowsBounceVertical": "YES",
+    "titleBarColor": "#ffffff"
+  },
+  "baidu": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "index",
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50
+  }
+}
+</script>

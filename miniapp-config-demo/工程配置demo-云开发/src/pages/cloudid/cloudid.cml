@@ -1,0 +1,173 @@
+<template>
+  <!--index.wxml-->
+<view class="container">
+
+  <view class="guide">
+    <text class="headline">开放数据调用</text>
+    <text class="p">通过 cloudID 获取敏感开放数据有以下两种方式</text>
+    <text class="p">1. 小程序端 callFunction 自动获取</text>
+    <text class="p">2. 通过 wx-server-sdk 获取</text>
+    <text class="p">以下分别先后展示这两种获取方式</text>
+  </view>
+
+  <view class="uploader">
+    <button class="uploader-text" c-bind:onclick="onGetWeRunData" text="getWeRunData 敏感数据获取"></button>
+  </view>
+
+  <view class="guide">
+    <text class="headline">测试须知</text>
+    <text class="p">1. 公共库版本需大于 2.7.0</text>
+    <text class="p">2. 请确保 echo 函数已上传</text>
+  </view>
+
+  <view class="guide" style="word-break: break-all">
+    {{weRunResult}}
+  </view>
+
+
+  <view class="uploader">
+    <button class="uploader-text" open-type="getUserInfo" c-bind:getuserinfo="onGetUserInfo" text="getUserInfo 敏感数据获取"></button>
+  </view>
+
+  <view class="guide">
+    <text class="headline">测试须知</text>
+    <text class="p">1. 公共库版本需大于 2.7.0</text>
+    <text class="p">2. 请确保 openapi 函数已上传</text>
+  </view>
+
+  <view class="guide" style="word-break: break-all">
+    {{userInfoResult}}
+  </view>
+
+</view>
+
+</template>
+
+<script>
+import store from '../../store/index.js';
+import common from '../../components/common/cloud.interface'
+import cml from 'chameleon-api';
+let cloud = common.getCloud();
+class Cloudid   {
+
+  data = {
+    weRunResult: '',
+    userInfoResult: '',
+  }
+
+  computed = {
+  }
+
+  watch  = {
+  }
+
+  methods = {
+    onGetWeRunData() {
+      wx.getWeRunData({
+        success: res => {
+          console.log('res.cloudID',res.cloudID)
+          cloud.callFunction({
+            name: 'echo',
+            data: {
+              // info 字段在云函数 event 对象中会被自动替换为相应的敏感数据
+              info: cloud.CloudID(res.cloudID),
+            },
+          }).then(res => {
+            console.log('[onGetWeRunData] 收到 echo 回包：', res)
+            this.weRunResult = JSON.stringify(res.result);
+            cml.showToast({
+              message: '敏感数据获取成功',
+            })
+          }).catch(err => {
+            console.log('[onGetWeRunData] 失败：', err)
+          })
+        }
+      })
+    },
+
+    onGetUserInfo(e) {
+      console.log('onGetUserInfo-cloudid',e)
+      cloud.callFunction({
+        name: 'openapi',
+        data: {
+          action: 'getOpenData',
+          openData: {
+            list: [
+              e.detail.cloudID,
+            ]
+          }
+        }
+      }).then(res => {
+        console.log('[onGetUserInfo] 调用成功：', res)
+        this.userInfoResult = JSON.stringify(res.result);
+        cml.showToast({
+          message: '敏感数据获取成功',
+        })
+      })
+    }
+  }
+
+  beforeCreate(query) {
+  }
+
+  created(query) {
+  }
+
+  beforeMount(query) {
+  }
+
+  onShow() {
+  }
+
+  mounted() {
+  }
+
+  onHide() {
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new Cloudid();
+</script>
+
+<style>
+@import "../../style/guide.css";
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  },
+  "qq": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  },
+  "wx": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  },
+  "alipay": {
+    "defaultTitle": "index",
+    "pullRefresh": false,
+    "allowsBounceVertical": "YES",
+    "titleBarColor": "#ffffff"
+  },
+  "baidu": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "index",
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50
+  }
+}
+</script>

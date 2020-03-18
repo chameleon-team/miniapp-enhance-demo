@@ -1,0 +1,130 @@
+<template>
+  <!--pages/storageConsole/storageConsole.wxml-->
+<view class="container">
+
+  <view class="list">
+    <view class="list-item">
+      <text class="black">上传成功</text>
+    </view>
+    <view class="list-item">
+      <text class="request-text">文件 ID：{{fileID}}</text>
+    </view>
+    <view class="list-item">
+      <text class="request-text">云文件路径：{{cloudPath}}</text>
+    </view>
+    <view class="list-item">
+      <image class="image1" src="{{imagePath}}" mode="aspectFit" style="width:100cpx;height:100cpx"></image>
+    </view>
+  </view>
+
+  <view class="guide">
+    <!-- <image class="image1" src="{{imagePath}}" mode="aspectFit"></image> -->
+    <text class="headline">云开发控制台中管理文件</text>
+    <text class="p">1. 打开云开发控制台</text>
+    <image class="image1" src="{{imgSrc}}" mode="aspectFit"></image>
+    <text class="p">2. 切换到文件管理标签页</text>
+    <text class="p">3. 可查看文件列表、管理权限</text>
+    <text class="p">4. 详细的教程和 API 文件，可点击调试器中打印的链接查看</text>
+  </view>
+
+</view>
+</template>
+
+<script>
+import store from '../../store/index.js'
+class StorageConsole   {
+
+  data = {
+    imgSrc:require('../../assets/images/console-entrance.png')
+  }
+
+  computed = {
+    ...store.mapState({
+      fileID: state => state.fileID,
+      cloudPath: state => state.cloudPath,
+      imagePath: state => state.imagePath,
+    }),
+    title(){
+      return this.fileID ? '上传成功' :'请先上传图片'
+    }
+  }
+
+  watch  = {
+  }
+
+  methods = {
+  }
+
+  beforeCreate(query) {
+  }
+
+  created(query) {
+  }
+
+  beforeMount(query) {
+  }
+
+  onShow() {
+  }
+
+  mounted() {
+  }
+
+  onHide() {
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new StorageConsole();
+</script>
+
+<style>
+.list-item{
+  border:1px solid rgba(0, 0, 0, 0.1);
+  padding:40cpx;
+  display:flex;
+  flex-direction:row;
+  justify-content: space-around;
+  align-items: center;
+  width:750cpx;
+  margin-bottom:30cpx;
+}
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  },
+  "qq": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  },
+  "wx": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  },
+  "alipay": {
+    "defaultTitle": "index",
+    "pullRefresh": false,
+    "allowsBounceVertical": "YES",
+    "titleBarColor": "#ffffff"
+  },
+  "baidu": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "index",
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50
+  }
+}
+</script>
