@@ -1,0 +1,46 @@
+<script cml-type="interface">
+interface UtilsInterface {
+  getCloud(Void): CMLObject;
+}
+</script>
+<script cml-type="web">
+const tcb = require('tcb-js-sdk');
+class Method implements UtilsInterface {
+  getCloud() {
+    return tcb
+  }
+}
+export default new Method();
+</script>
+<script cml-type="weex">
+class Method implements UtilsInterface {
+  getCloud() {
+    console.log('weex不支持')
+  }
+}
+export default new Method();
+</script>
+<script cml-type="wx">
+class Method implements UtilsInterface {
+  getCloud() {
+    return wx.cloud;
+  }
+}
+export default new Method();
+</script>
+<script cml-type="alipay">
+class Method implements UtilsInterface {
+  getCloud() {
+    return my.cloud;
+  }
+}
+export default new Method();
+</script>
+<script cml-type="baidu">
+class Method implements UtilsInterface {
+  getCloud() {
+    return swan.cloud;
+  }
+}
+export default new Method();
+</script>
