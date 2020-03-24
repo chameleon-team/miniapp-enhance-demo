@@ -1,0 +1,119 @@
+<template>
+  <page title="chameleon">
+    <view class="page-container">
+      <scroller height="{{-1}}">
+        <view class="scroller-wrap">
+          <view class="bwx-demo-page">
+            <view class="bwx-demo-page-header">
+              <text class="bwx-demo-page-title">Chameleon</text>
+            </view>
+            <view class="bwx-demo-page-main">
+              <button text="navigateBack" c-bind:onclick="navigateBack"></button>
+            </view>
+          </view>
+        </view>
+      </scroller>
+    </view>
+  </page>
+</template>
+
+<script>
+import cmlMini from '@didi/chameleon-api-miniapp';
+console.log(cmlMini);
+
+class Index {
+  data = {
+  }
+  computed = {
+  }
+  watch = {
+  }
+  methods = {
+    navigateBack(item) {
+      cmlMini.navigateBack();
+    }
+  }
+  beforeCreate(res) {
+  }
+  created(res) {
+  }
+  beforeMount(res) {
+  }
+  mounted(res) {
+  }
+  beforeDestroy(res) {
+  }
+  destroyed(res) {
+  }
+
+}
+
+export default new Index();
+
+</script>
+<style scoped>
+.bwx-demo-page {
+  background-color: #f8f8f8;
+}
+
+.bwx-demo-page-header {
+  padding: 80cpx;
+}
+
+.bwx-demo-page-title {
+  color: #333333;
+  font-size: 60cpx;
+}
+
+.bwx-demo-page-desc {
+  margin-top: 5cpx;
+  color: #888888;
+  font-size: 28cpx;
+}
+.bwx-demo-page-main {
+  flex: 1;
+  padding: 0 30cpx 50cpx;
+}
+.bwx-demo-page-main-list {
+}
+.bwx-demo-page-main-list-item {
+  background-color: #ffffff;
+  border-radius: 4cpx;
+  margin: 10cpx 0;
+}
+.bwx-demo-page-main-list-item-panel {
+  padding: 40cpx;
+  border-radius: 4cpx;
+}
+.bwx-demo-page-main-list-item-panel-text {
+  font-size: 36cpx;
+}
+.bwx-demo-page-main-list-item-panel-sub-list {
+  background-color: #ffffff;
+  border-radius: 4cpx;
+  padding: 0cpx 0 40cpx 0;
+}
+.bwx-demo-page-main-list-item-panel-sub-list-item {
+  padding: 20cpx 40cpx;
+}
+.bwx-demo-page-main-list-item-panel-sub-list-item-link-text {
+  font-size: 32cpx;
+}
+.color-grey {
+  color: #808080;
+}
+</style>
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {
+      "demo-com": "/components/demo-com/demo-com"
+    }
+  },
+  "wx": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  }
+}
+</script>

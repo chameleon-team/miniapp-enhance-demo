@@ -1,0 +1,49 @@
+<script cml-type="interface">
+  type SuccessFunc = (res: CMLObject) => Void;
+  type FailFunc = (res: CMLObject) => Void;
+  type CompleteFunc = (res: CMLObject) => Void;
+
+  type OptType = {
+    payParams: CMLObject,
+    success: SuccessFunc,
+    fail: FailFunc,
+    complete: CompleteFunc
+  };
+
+  interface MethodsInterface {
+    pay(opt: OptType): Void
+  }
+</script>
+
+<script cml-type="wx">
+  class Method implements MethodsInterface {
+    pay(opt) {
+      let {
+        appid = opt.payParams.appId
+      } = opt
+      wx.requestPayment({
+        appid,
+        ...opt,
+        ...opt.payParams
+      });
+    }
+  }
+
+  export default new Method();
+</script>
+
+<script cml-type="alipay">
+  class Method implements MethodsInterface {
+    pay(opt) {
+      let {
+        orderStr = opt.payParams.pay_string
+      } = opt;
+      my.tradePay({
+        orderStr,
+        ...opt
+      });
+    }
+  }
+
+  export default new Method();
+</script>

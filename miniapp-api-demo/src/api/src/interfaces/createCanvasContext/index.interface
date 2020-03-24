@@ -1,0 +1,25 @@
+<script cml-type="interface">
+    interface MethodsInterface {
+        createCanvasContext(canvasId: String, context: CMLObject): CMLObject
+    }
+</script>
+
+<script cml-type="wx">
+    class Method implements MethodsInterface {
+        createCanvasContext(canvasId, context) {
+            return wx.createCanvasContext(canvasId, context);
+        }
+    }
+
+    export default new Method();
+</script>
+
+<script cml-type="alipay">
+    class Method implements MethodsInterface {
+        createCanvasContext(canvasId, context) {
+            return my.createCanvasContext(canvasId);
+        }
+    }
+
+    export default new Method();
+</script>

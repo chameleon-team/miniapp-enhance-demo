@@ -1,0 +1,27 @@
+<script cml-type="interface">
+
+    interface MethodsInterface {
+    }
+</script>
+
+<script cml-type="wx">
+    class Method implements MethodsInterface {
+        removeStorageSync(key) {
+            return wx.removeStorageSync(key);
+        }
+    }
+
+    export default new Method();
+</script>
+
+<script cml-type="alipay">
+    class Method implements MethodsInterface {
+        removeStorageSync(key) {
+            return my.removeStorageSync({
+                key
+            });
+        }
+    }
+
+    export default new Method();
+</script>

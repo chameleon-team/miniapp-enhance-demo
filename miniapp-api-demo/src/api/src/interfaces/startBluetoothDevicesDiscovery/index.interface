@@ -1,0 +1,57 @@
+<script cml-type="interface">
+    type SuccessFunc = (res: CMLObject) => Void;
+    type FailFunc = (res: CMLObject) => Void;
+    type CompleteFunc = (res: CMLObject) => Void;
+    type ServicesArray = [String]
+
+    type OptType = {
+        // 3.还需要的参数的type(如果有)
+        services: ServicesArray,
+		allowDuplicatesKey: Boolean,
+		interval: Number,
+        success: SuccessFunc,
+        fail: FailFunc,
+        complete: CompleteFunc
+    };
+
+    interface MethodsInterface {
+        startBluetoothDevicesDiscovery(opt: OptType): Void
+    }
+</script>
+
+<script cml-type="wx">
+    class Method implements MethodsInterface {
+        startBluetoothDevicesDiscovery(opt) {
+            wx.startBluetoothDevicesDiscovery(opt);
+        }
+    }
+
+    export default new Method();
+</script>
+
+<script cml-type="alipay">
+    class Method implements MethodsInterface {
+        startBluetoothDevicesDiscovery(opt) {
+            let {
+                // 4.解构出来参数
+                services,
+				allowDuplicatesKey,
+				interval,
+                success,
+                fail,
+                complete
+            } = opt;
+            my.startBluetoothDevicesDiscovery({
+                // 5.支付宝需要传的参数如果需要做兼容，进行替换，否则直接写在这里
+                services,
+				allowDuplicatesKey,
+				interval,
+                success,
+                fail,
+                complete
+            });
+        }
+    }
+
+    export default new Method();
+</script>

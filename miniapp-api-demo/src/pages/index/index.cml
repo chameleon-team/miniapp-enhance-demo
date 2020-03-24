@@ -1,0 +1,644 @@
+<template>
+  <page title="chameleon">
+    <view class="page-container">
+      <scroller height="{{-1}}">
+        <view class="scroller-wrap">
+          <view class="bwx-demo-page">
+            <view class="bwx-demo-page-header">
+              <text class="bwx-demo-page-title">Chameleon</text>
+              <text class="bwx-demo-page-desc">Chameleon 跨各小程序接口能力展示</text>
+            </view>
+            <view class="bwx-demo-page-main">
+              <view class="bwx-demo-page-main-list">
+                <view
+                  c-for="{{lists}}"
+                  c-for-index="index"
+                  c-for-item="item"
+                >
+                  <view class="bwx-demo-page-main-list-item">
+                    <view
+                      class="bwx-demo-page-main-list-item-panel"
+                      c-bind:tap="itemClick(index)"
+                    >
+                      <text class="{{item.subOpen ? 'bwx-demo-page-main-list-item-panel-text  color-grey' : 'bwx-demo-page-main-list-item-panel-text'}}">{{item.name}}</text>
+                    </view>
+                    <view
+                      class="bwx-demo-page-main-list-item-panel-sub-list"
+                      c-if="{{item.subList.length && item.subOpen}}"
+                    >
+                      <view
+                        class="bwx-demo-page-main-list-item-panel-sub-list-item"
+                        c-for="{{ item.subList }}"
+                        c-for-index="subIndex"
+                        c-for-item="subItem"
+                        c-bind:tap="subItemClick(index, subIndex)"
+                      >
+                        <text class="bwx-demo-page-main-list-item-panel-sub-list-item-link-text">{{subItem.name}}</text>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroller>
+    </view>
+  </page>
+</template>
+
+<script>
+import cmlMini from '@didi/chameleon-api-miniapp';
+import cml from 'chameleon-api';
+console.log(cmlMini);
+
+const say = msg => {
+  cmlMini.showToast({
+    title: JSON.stringify(msg)
+  });
+}
+
+class Index {
+  data = {
+    deviceName: '朱智恒的MacBook Pro',
+    services: [],
+    notifyServiceId:'',
+    notifyCharacteristicsId:'',
+    connectedDeviceId: '',
+    lists: [{
+      name: '交互反馈',
+      subOpen: false,
+      subList: [{
+        name: 'showToast',
+        method: 'showToast',
+        param: {
+          title: '你好toast',
+          icon: 'success',
+          duration: 2000
+        }
+      },{
+        name: 'hideToast',
+        method: 'hideToast',
+        param: {
+          title: '你好toast',
+          icon: 'success',
+          duration: 2000
+        }
+      }, {
+        name: 'showLoading',
+        method: 'showLoading',
+        param: {
+          title: ''
+        }
+      }, {
+        name: 'hideLoading',
+        method: 'hideLoading',
+        param: {
+          page: {}
+        }
+      }, {
+        name: 'showModal',
+        method: 'showModal',
+        param: {
+          title: '提醒',
+          content: '你的假期余额不足',
+          cancelText: '好的',
+          confirmText: '充值',
+          success(res) {
+            say(res);
+          }
+        }
+      }, {
+        name: 'showActionSheet',
+        method: 'showActionSheet',
+        param: {
+          itemList: ['A', 'B', 'C'],
+          success (res) {
+            say(res.tapIndex)
+          },
+          fail (res) {
+            say(res.errMsg)
+          }
+        }
+      },{
+        name: 'makePhoneCall',
+        method: 'makePhoneCall',
+        param: {
+          phoneNumber: '18801199195',
+          success(res) {
+            say(res);
+          }
+        }
+      }]
+    }, {
+      name: '页面导航',
+      subOpen: false,
+      subList: [{
+        name: 'navigateTo',
+        method: 'navigateTo',
+        param: {
+          url: '/pages/nav/nav'
+        }
+      }, {
+        name: 'redirectTo',
+        method: 'redirectTo',
+        param: {
+          url: '/pages/nav/nav'
+        }
+      }, {
+        name: 'reLaunch',
+        method: 'reLaunch',
+        param: {
+          url: '/pages/nav/nav'
+        }
+      }]
+    }, {
+      name: '界面',
+      subOpen: false,
+      subList: [{
+        name: 'setNavigationBarTitle',
+        method: 'setNavigationBarTitle',
+        param: {
+          title: 'Chameleon Title'
+        }
+      }]
+    }, {
+      name: '存储',
+      subOpen: false,
+      subList: [{
+        name: 'setStorageSync',
+        method: 'storage',
+        param: {
+          action: 'set'
+        }
+      }, 
+      {
+        name: 'getStorageSync',
+        method: 'storage',
+        param: {
+          action: 'get'
+        }
+      },
+      {
+        name: 'removeStorageSync',
+        method: 'storage',
+        param: {
+          action: 'remove'
+        }
+      }]
+    }, {
+      name: '地理位置',
+      subOpen: false,
+      subList: [{
+        name: 'getLocation',
+        method: 'getLocation',
+        param: {
+          success(res) {
+            say(res);
+          }
+        }
+      }]
+    }, {
+      name: '系统信息',
+      subOpen: false,
+      subList: [{
+        name: 'getSystemInfo',
+        method: 'getSystemInfo',
+        param: {
+          success(res) {
+            say(res);
+          }
+        }
+      }],
+    }, {
+      name: '用户信息',
+      subOpen: false,
+      subList: [{
+        name: 'login',
+        method: 'login',
+        param: {
+          success(res) {
+            say(res);
+          }
+        }
+      }]
+    }]
+  }
+  computed = {
+
+  }
+  watch = {
+
+  }
+  methods = {
+    itemClick(index) {
+      this.lists[index].subOpen = !this.lists[index].subOpen;
+    },
+    subItemClick(index, subIndex) {
+      const item = this.lists[index]['subList'][subIndex];
+      const method = item.method;
+      var param = item.param || {};
+
+      if (method == 'showLoading') {
+        setTimeout(() => {
+          cmlMini.hideLoading();
+        }, 5000)
+      } else if (method == 'storage') {
+        this.storage(param)
+      } else {
+        cmlMini[method](param);
+      }
+    },
+    storage({action = ''}) {
+      if (action === 'set') {
+        cmlMini.setStorageSync('name', 'ironman');
+        cml.showToast({
+          message: 'setStorageSync成功'
+        });
+      } else if (action === 'get') {
+        console.log(cmlMini.getStorageSync('name'));
+        cml.showToast({
+          message: JSON.stringify(cmlMini.getStorageSync('name'))
+        });
+      } else if (action === 'remove') {
+        cml.removeStorage('name')
+        cml.showToast({
+          message: 'name 值已删除'
+        });
+      }
+    },
+    uploadFile() {
+      cml.chooseImage({type: 'album'}).then(res => {
+        console.log(res)
+        cmlMini.uploadFile({
+          url: 'https://http://172.22.138.34:8080',
+          filePath: res.WxTempFilePaths[0],
+          name: 'iiimmmggg',
+          fileType: 'image',
+          success(fileRes) {
+            console.log(fileRes, 'uploadFile success')
+          },
+          fail(err) {
+            console.log(err, 'uplaodFile fail')
+            // wx返回 {errMsg: ''}
+            // alipay返回 {error: 12}
+          },
+          complete(info) {
+            console.log(info, 'uploadFile complete')
+          }
+        })
+      })
+    },
+    // #1.首先是要初始化蓝牙
+    openBluetoothAdapter() {
+      // 在蓝牙连接的过程中部分api需要加定时器延时1秒到2秒左右再执行，原因为何不知道，小程序有这样的要求 
+      const that = this
+      cmlMini.openBluetoothAdapter({
+        success: function(res) {
+            /* 获取本机的蓝牙状态 */
+            console.log('openBluetoothAdapter success', res)
+            setTimeout(() => {
+                that.getBluetoothAdapterState()
+            }, 1000)
+        },
+        fail: function(err) {
+          console.log('openBluetoothAdapter error', err)
+          // 初始化失败
+        }
+      })
+    },
+    // #2.检测本机蓝牙是否可用：
+    getBluetoothAdapterState() {
+      const that = this
+      cmlMini.getBluetoothAdapterState({
+        success: function(res) {
+          console.log('getBluetoothAdapterState success', res)
+          that.startBluetoothDevicesDiscovery()
+        },
+        fail(err) {
+          console.log('getBluetoothAdapterState fail', err)
+        }
+      })
+    },
+    // #3. 开始搜索蓝牙设备
+    startBluetoothDevicesDiscovery() {
+      var that = this;
+      setTimeout(() => {
+        cmlMini.startBluetoothDevicesDiscovery({
+          success: function(res) {
+            /* 获取蓝牙设备列表 */
+            console.log('startBluetoothDevicesDiscovery success', res)
+            that.getBluetoothDevices()
+          },
+          fail(res) {
+            console.log(res)
+          }
+        })
+      }, 1000)
+    },
+    // #4. 获取搜索到的蓝牙设备列表
+    getBluetoothDevices() {
+      var that = this;
+      setTimeout(() => {
+        cmlMini.getBluetoothDevices({
+          services: [],
+          allowDuplicatesKey: false,
+          interval: 0,
+          success: function(res) {
+            console.log('getBluetoothDevices success', res)
+            if (res.devices.length > 0) {
+              if (JSON.stringify(res.devices).indexOf(that.deviceName) !== -1) {
+                for (let i = 0; i < res.devices.length; i++) {
+                  if (that.deviceName === res.devices[i].name) {
+                    /* 根据指定的蓝牙设备名称匹配到deviceId */
+                    that.deviceId = res.devices[i].deviceId;
+                    setTimeout(() => {
+                      that.connectTO();
+                    }, 2000);
+                  };
+                };
+              } else {
+              }
+            } else {
+            }
+          },
+          fail(res) {
+            console.log(res, '获取蓝牙设备列表失败=====')
+          }
+        })
+      }, 2000)
+    },
+    // #5.连接蓝牙
+    connectTO() {
+      // 匹配到的蓝牙设备ID 发送连接蓝牙的请求， 连接成功之后 应该断开蓝牙搜索的api，然后去获取所连接蓝牙设备的service服务
+      const that = this
+      cmlMini.createBLEConnection({
+        deviceId: this.deviceId,
+        success: function(res) {
+          console.log('createBLEConnection success', res)
+          that.connectedDeviceId = that.deviceId;
+          /* 4.获取连接设备的service服务 */
+          that.getBLEDeviceServices();
+          cmlMini.stopBluetoothDevicesDiscovery({
+            success: function(res) {
+              console.log(res, '停止搜索')
+            },
+            fail(res) {
+            }
+          })
+        },
+        fail: function(res) {
+        }
+      })
+    },
+    // #6. 获取蓝牙设备的service服务,获取的serviceId有多个要试着连接最终确定哪个是稳定版本的service 获取服务完后获取设备特征值
+    getBLEDeviceServices() {
+      const that = this
+      setTimeout(() => {
+        cmlMini.getBLEDeviceServices({
+          deviceId: that.connectedDeviceId,
+          success: function(res) {
+            console.log('getBLEDeviceServices success', res)
+            that.services = res.services
+            /* 获取连接设备的所有特征值 */
+            that.getBLEDeviceCharacteristics()
+          },
+          fail: (res) => {
+          }
+        })
+      }, 2000)
+    },
+    // #7.获取蓝牙设备特征值
+    getBLEDeviceCharacteristics() {
+      // 获取到的特征值有多个，最后要用的事能读，能写，能监听的那个值的uuid作为特征值id，
+      const that = this
+      setTimeout(() => {
+        cmlMini.getBLEDeviceCharacteristics({
+          deviceId: that.connectedDeviceId,
+          serviceId: that.services[2].uuid,
+          success: function(res) {
+            console.log('getBLEDeviceCharacteristics success', res)
+            for (var i = 0; i < res.characteristics.length; i++) {
+              if ((res.characteristics[i].properties.notify || res.characteristics[i].properties.indicate) &&
+                (res.characteristics[i].properties.write)) {
+                console.log(res.characteristics[i].uuid, '蓝牙特征值 ==========')
+                /* 获取蓝牙特征值 */
+                that.notifyCharacteristicsId = res.characteristics[i].uuid
+                that.notifyServiceId = res.serviceId
+                // 启用低功耗蓝牙设备特征值变化时的 notify 功能
+                that.notifyBLECharacteristicValueChange()
+              } else {
+                console.log('未搜索到 可读&可写&可监听 的蓝牙设备')
+              }
+            }
+          },
+          fail: function(res) {
+          }
+        })
+      }, 1000)
+    },
+    // #8.启动notify 蓝牙监听功能 然后使用 cmlMini.onBLECharacteristicValueChange用来监听蓝牙设备传递数据 #接收到的数据和发送的数据必须是二级制数据， 页面展示的时候需要进行转换
+    notifyBLECharacteristicValueChange() { // 启用低功耗蓝牙设备特征值变化时的 notify 功能
+      var that = this;
+      console.log('6.启用低功耗蓝牙设备特征值变化时的 notify 功能')
+      cmlMini.notifyBLECharacteristicValueChange({
+        state: true,
+        deviceId: that.connectedDeviceId,
+        serviceId: that.notifyServiceId,
+        characteristicId: that.notifyCharacteristicsId,
+        complete(res) {
+          console.log('notifyBLECharacteristicValueChange success', res)
+          /*用来监听手机蓝牙设备的数据变化*/
+          cmlMini.onBLECharacteristicValueChange(function(res) {
+            /**/
+            that.balanceData += that.buf2string(res.value)
+            that.hexstr += that.receiveData(res.value)
+          })
+        },
+        fail(res) {
+          console.log(res, '启用低功耗蓝牙设备监听失败')
+          // that.measuringTip(res)
+        }
+      })
+    },
+    /*转换成需要的格式*/
+    buf2string(buffer) {
+      var arr = Array.prototype.map.call(new Uint8Array(buffer), x => x)
+      return arr.map((char, i) => {
+        return String.fromCharCode(char);
+      }).join('');
+    },
+    receiveData(buf) {
+      return this.hexCharCodeToStr(this.ab2hex(buf))
+    },
+    /*转成二进制*/
+    ab2hex (buffer) {
+      var hexArr = Array.prototype.map.call(
+        new Uint8Array(buffer), function (bit) {
+          return ('00' + bit.toString(16)).slice(-2)
+        }
+      )
+      return hexArr.join('')
+    },
+    /*转成可展会的文字*/
+    hexCharCodeToStr(hexCharCodeStr) {
+      var trimedStr = hexCharCodeStr.trim();
+      var rawStr = trimedStr.substr(0, 2).toLowerCase() === '0x' ? trimedStr.substr(2) : trimedStr;
+      var len = rawStr.length;
+      var curCharCode;
+      var resultStr = [];
+      for (var i = 0; i < len; i = i + 2) {
+        curCharCode = parseInt(rawStr.substr(i, 2), 16);
+        resultStr.push(String.fromCharCode(curCharCode));
+      }
+      return resultStr.join('');
+    },
+    // 向蓝牙设备发送数据
+    sendData(str) {
+      let that = this;
+      let dataBuffer = new ArrayBuffer(str.length)
+      let dataView = new DataView(dataBuffer)
+      for (var i = 0; i < str.length; i++) {
+        dataView.setUint8(i, str.charAt(i).charCodeAt())
+      }
+      let dataHex = that.ab2hex(dataBuffer);
+      this.writeDatas = that.hexCharCodeToStr(dataHex);
+      cmlMini.writeBLECharacteristicValue({
+        deviceId: that.connectedDeviceId,
+        serviceId: that.notifyServiceId,
+        characteristicId: that.notifyCharacteristicsId,
+        value: dataBuffer,
+        success: function (res) {
+          console.log('发送的数据：' + that.writeDatas)
+          console.log('message发送成功')
+        },
+        fail: function (res) {
+        },
+        complete: function (res) {
+        }
+      })
+    },
+    // 断开设备连接 #在向蓝牙设备传递数据和接收数据的过程中，并未使用到read的API 不知道有没有潜在的问题，
+    closeConnect() {
+      const that = this
+      if (that.connectedDeviceId) {
+        cmlMini.closeBLEConnection({
+          deviceId: that.connectedDeviceId,
+          success: function(res) {
+            console.log('closeBLEConnection success', res)
+            that.closeBluetoothAdapter()
+          },
+          fail(res) {
+          }
+        })
+      } else {
+        that.closeBluetoothAdapter()
+      }
+    },
+    // 关闭蓝牙模块
+    closeBluetoothAdapter() {
+      cmlMini.closeBluetoothAdapter({
+        success: function(res) {
+          console.log('closeBluetoothAdapter success', res)
+        },
+        fail: function(err) {
+        }
+      })
+    },
+  }
+  beforeCreate(res) {
+  }
+  created(res) {
+  }
+  beforeMount(res) {
+  }
+  mounted(res) {
+    // 必须在这里的回调才能获取
+    // cmlMini.onBLECharacteristicValueChange(function (characteristic) {
+    //   console.log('characteristic value comed:', characteristic)
+    // })
+    // uploadFile演示
+    // this.uploadFile()
+
+    // createMapContext演示
+    // this.mapCtx = cmlMini.createMapContext('t-map', this)
+
+    // 开启蓝牙测试之旅
+    this.openBluetoothAdapter()
+  }
+  beforeDestroy(res) {
+  }
+  destroyed(res) {
+  }
+
+}
+
+export default new Index();
+
+</script>
+<style scoped>
+.bwx-demo-page {
+  background-color: #f8f8f8;
+}
+
+.bwx-demo-page-header {
+  padding: 80cpx;
+}
+
+.bwx-demo-page-title {
+  color: #333333;
+  font-size: 60cpx;
+}
+
+.bwx-demo-page-desc {
+  margin-top: 5cpx;
+  color: #888888;
+  font-size: 28cpx;
+}
+.bwx-demo-page-main {
+  flex: 1;
+  padding: 0 30cpx 50cpx;
+}
+.bwx-demo-page-main-list {
+}
+.bwx-demo-page-main-list-item {
+  background-color: #ffffff;
+  border-radius: 4cpx;
+  margin: 10cpx 0;
+}
+.bwx-demo-page-main-list-item-panel {
+  padding: 40cpx;
+  border-radius: 4cpx;
+}
+.bwx-demo-page-main-list-item-panel-text {
+  font-size: 36cpx;
+}
+.bwx-demo-page-main-list-item-panel-sub-list {
+  background-color: #ffffff;
+  border-radius: 4cpx;
+  padding: 0cpx 0 40cpx 0;
+}
+.bwx-demo-page-main-list-item-panel-sub-list-item {
+  padding: 20cpx 40cpx;
+}
+.bwx-demo-page-main-list-item-panel-sub-list-item-link-text {
+  font-size: 32cpx;
+}
+.color-grey {
+  color: #808080;
+}
+</style>
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {
+      "demo-com": "/components/demo-com/demo-com"
+    }
+  },
+  "wx": {
+    "navigationBarTitleText": "index",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#E2E2E2"
+  }
+}
+</script>

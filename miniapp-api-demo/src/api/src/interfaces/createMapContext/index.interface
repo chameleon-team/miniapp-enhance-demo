@@ -1,0 +1,25 @@
+<script cml-type="interface">
+    interface MethodsInterface {
+        createMapContext(mapId: String, context: CMLObject): CMLObject
+    }
+</script>
+
+<script cml-type="wx">
+    class Method implements MethodsInterface {
+        createMapContext(mapId, context) {
+            return wx.createMapContext(mapId, context);
+        }
+    }
+
+    export default new Method();
+</script>
+
+<script cml-type="alipay">
+    class Method implements MethodsInterface {
+        createMapContext(mapId, context) {
+            return my.createMapContext(mapId);
+        }
+    }
+
+    export default new Method();
+</script>

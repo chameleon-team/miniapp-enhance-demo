@@ -1,0 +1,27 @@
+<script cml-type="interface">
+    type CallBack = (res: CMLObject) => Void;
+
+    interface MethodsInterface {
+        onBLEConnectionStateChange(cb: CallBack): Void
+    }
+</script>
+
+<script cml-type="wx">
+    class Method implements MethodsInterface {
+        onBLEConnectionStateChange(cb) {
+            wx.onBLEConnectionStateChange(cb);
+        }
+    }
+
+    export default new Method();
+</script>
+
+<script cml-type="alipay">
+    class Method implements MethodsInterface {
+        onBLEConnectionStateChange(cb) {
+            my.onBLEConnectionStateChange(cb);
+        }
+    }
+
+    export default new Method();
+</script>

@@ -1,0 +1,27 @@
+<script cml-type="interface">
+    type CallBack = (res: CMLObject) => Void;
+
+    interface MethodsInterface {
+        onBLECharacteristicValueChange(cb: CallBack): Void
+    }
+</script>
+
+<script cml-type="wx">
+    class Method implements MethodsInterface {
+        onBLECharacteristicValueChange(cb) {
+            wx.onBLECharacteristicValueChange(cb);
+        }
+    }
+
+    export default new Method();
+</script>
+
+<script cml-type="alipay">
+    class Method implements MethodsInterface {
+        onBLECharacteristicValueChange(cb) {
+            my.onBLECharacteristicValueChange(cb);
+        }
+    }
+
+    export default new Method();
+</script>

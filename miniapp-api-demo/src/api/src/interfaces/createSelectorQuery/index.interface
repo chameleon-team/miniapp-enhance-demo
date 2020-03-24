@@ -1,0 +1,24 @@
+<script cml-type="interface">
+  interface MethodsInterface {
+  }
+</script>
+
+<script cml-type="wx">
+  class Method implements MethodsInterface {
+    createSelectorQuery() {
+      return wx.createSelectorQuery();
+    }
+  }
+
+  export default new Method();
+</script>
+
+<script cml-type="alipay">
+  class Method implements MethodsInterface {
+    createSelectorQuery() {
+      return my.createSelectorQuery();
+    }
+  }
+
+  export default new Method();
+</script>

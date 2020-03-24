@@ -1,0 +1,25 @@
+<script cml-type="interface">
+    interface MethodsInterface {
+        hideToast(): Void
+    }
+</script>
+
+<script cml-type="wx">
+    class Method implements MethodsInterface {
+        hideToast() {
+            wx.hideToast();
+        }
+    }
+
+    export default new Method();
+</script>
+
+<script cml-type="alipay">
+    class Method implements MethodsInterface {
+        hideToast() {
+            my.hideToast();
+        }
+    }
+
+    export default new Method();
+</script>

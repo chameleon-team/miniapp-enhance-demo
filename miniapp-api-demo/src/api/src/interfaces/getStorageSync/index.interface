@@ -1,0 +1,27 @@
+<script cml-type="interface">
+
+    interface MethodsInterface {
+    }
+</script>
+
+<script cml-type="wx">
+    class Method implements MethodsInterface {
+        getStorageSync(key) {
+            return wx.getStorageSync(key);
+        }
+    }
+
+    export default new Method();
+</script>
+
+<script cml-type="alipay">
+    class Method implements MethodsInterface {
+        getStorageSync(key) {
+            return my.getStorageSync({
+                key
+            });
+        }
+    }
+
+    export default new Method();
+</script>

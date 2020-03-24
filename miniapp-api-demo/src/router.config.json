@@ -1,0 +1,18 @@
+{
+  "mode": "history",
+  "domain": "https://www.chameleon.com",
+  "routes":[
+    {
+      "url": "/pages/index/index",
+      "path": "/pages/index/index",
+      "name": "首页",
+      "mock": "index.php"
+    },
+    {
+      "url": "/pages/nav/nav",
+      "path": "/pages/nav/nav",
+      "name": "navigateBack",
+      "mock": "index.php"
+    }
+  ]
+}

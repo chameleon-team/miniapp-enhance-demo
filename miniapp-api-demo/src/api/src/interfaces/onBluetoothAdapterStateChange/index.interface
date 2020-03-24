@@ -1,0 +1,27 @@
+<script cml-type="interface">
+    type CallBack = (res: CMLObject) => Void;
+
+    interface MethodsInterface {
+        onBluetoothAdapterStateChange(cb: CallBack): Void
+    }
+</script>
+
+<script cml-type="wx">
+    class Method implements MethodsInterface {
+        onBluetoothAdapterStateChange(cb) {
+            wx.onBluetoothAdapterStateChange(cb);
+        }
+    }
+
+    export default new Method();
+</script>
+
+<script cml-type="alipay">
+    class Method implements MethodsInterface {
+        onBluetoothAdapterStateChange(cb) {
+            my.onBluetoothAdapterStateChange(cb);
+        }
+    }
+
+    export default new Method();
+</script>
