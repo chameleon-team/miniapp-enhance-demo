@@ -1,0 +1,112 @@
+<template>
+  <origin-canvas
+    style="{{ cmtStyle }}"
+    id="{{ cid }}"
+    class="{{ cclass }}"
+    disable-scroll="{{ disableScroll }}"
+    onTouchStart="onTouchStart"
+    onTouchMove="onTouchMove"
+    onTouchEnd="onTouchEnd"
+    onTouchCancel="onTouchCancel"
+    onLongTap="onLongTap"
+  ></origin-canvas>
+</template>
+
+<script>
+import cml from 'chameleon-api';
+
+class MpCanvas implements MpCanvasInterface {
+  props = {
+    cid: {
+      type: String,
+      default: ''
+    },
+    disableScroll: {
+      type: Boolean,
+      default: false
+    },
+    cstyle: {
+      type: String,
+      default: ''
+    },
+    cclass: {
+      type: String,
+      default: ''
+    },
+    width: {
+      type: Number,
+      default: 300
+    },
+    height: {
+      type: Number,
+      default: 150
+    }
+  }
+
+  data = {
+  }
+
+  computed = {
+    cmtStyle () {
+      return this.cstyle + `width:${cml.cpx2px(this.width)}px;height:${cml.cpx2px(this.height)}px;`
+    }
+  }
+
+  watch = {
+  }
+
+  methods = {
+    onTouchStart (e) {
+      this.$cmlEmit('ontouchstart');
+    },
+    onTouchMove (e) {
+      this.$cmlEmit('ontouchmove');
+    },
+    onTouchEnd (e) {
+      this.$cmlEmit('ontouchend');
+    },
+    onTouchCancel (e) {
+      this.$cmlEmit('ontouchcancel');
+    },
+    onLongTap (e) {
+      this.$cmlEmit('onlongtap');
+    }
+  }
+
+  beforeCreate() {
+  }
+
+  created() {
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+    var context = my.createCanvasContext(this.cid);
+    this.$cmlEmit('getcontext', {
+      context
+    });
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new MpCanvas();
+</script>
+
+<style >
+
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  }
+}
+</script>

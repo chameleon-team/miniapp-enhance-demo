@@ -1,0 +1,102 @@
+<template>
+<page title="canvas演示">
+  <c-header title="canvas"></c-header>
+  <view class="canvas-box">
+    <mp-canvas
+        cid="mycanvas"
+        cstyle="background-color:#fff;"
+        width="{{ 400 }}"
+        height="{{ 400 }}"
+        cclass="canvas_ex"
+        c-bind:getcontext="getContext"
+    ></mp-canvas>
+  </view>
+</page>
+</template>
+<script>
+import cml from 'chameleon-api';
+
+class CCanvas {
+  data = {
+  }
+
+  computed = {
+  }
+
+  watch  = {
+  }
+
+  methods = {
+    getContext(e) {
+      // 这个context实例结构比较复杂，不能复制给this.xxx
+      if (e.detail.context) {
+        this.draw(e.detail.context);
+      }
+    },
+    draw (context) {
+      context.setStrokeStyle("#00ff00")
+      context.setLineWidth(5)
+      context.rect(0, 0, 200, 200)
+      context.stroke()
+      context.setStrokeStyle("#ff0000")
+      context.setLineWidth(2)
+      context.moveTo(160, 100)
+      context.arc(100, 100, 60, 0, 2 * Math.PI, true)
+      context.moveTo(140, 100)
+      context.arc(100, 100, 40, 0, Math.PI, false)
+      context.moveTo(85, 80)
+      context.arc(80, 80, 5, 0, 2 * Math.PI, true)
+      context.moveTo(125, 80)
+      context.arc(120, 80, 5, 0, 2 * Math.PI, true)
+      context.stroke()
+      context.draw()
+    }
+  }
+
+  beforeCreate() {
+  }
+
+  created() {
+    
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+    console.log(this)
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new CCanvas();
+</script>
+<style scoped>
+.canvas-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+</style>
+<script cml-type="json">
+{
+    "base": {
+        "usingComponents": {
+            "c-header": "../../components/header/header",
+            "mp-canvas": "@didi/chameleon-ui-miniapp/mp-canvas/mp-canvas"
+        }
+    },
+    "wx": {
+        "navigationBarTitleText": "index",
+        "backgroundTextStyle": "dark",
+        "backgroundColor": "#E2E2E2"
+
+    }
+}
+</script>

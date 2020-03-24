@@ -1,0 +1,132 @@
+<template>
+<page title="dialog演示">
+  <c-header title="dialog"></c-header>
+  <mp-dialog
+      show="{{ show }}"  
+      title="{{ title }}" 
+      content="{{ content }}"
+      show-cancel="{{ showCancel }}"
+      cancel-text="{{ cancelText }}"
+      confirm-text="{{ confirmText }}"
+      c-bind:confirm="confirmEvent"
+      c-bind:cancel="cancelEvent"
+    ></mp-dialog>
+  <!-- <c-dialog show="{{custom}}" mask="{{true}}">
+    <text class="custom-header" slot="header">自定义标题</text>
+    <text class="custom-content">自定义内容</text>
+    <text class="custom-footer" slot="footer">自定义底部</text>
+  </c-dialog> -->
+  <button class="btn" c-bind:onclick="showAlert" text="alert dialog"></button>
+  <button class="btn" c-bind:onclick="showConfirm" text="confirm dialog"></button>
+</page>
+</template>
+<script>
+class CDialog {
+
+  data = {
+    title: "我是标题",
+    content: "我是内容",
+    show: false,
+    cancelText: 'cancel',
+    confirmText: 'confirm',
+    showCancel: true
+  }
+
+  computed = {
+  }
+
+  watch  = {
+  }
+
+  methods = {
+    showAlert() {
+      this.title = "我是标题";
+      this.content = "我是内容";
+      this.showCancel = false;
+      this.confirmText = "我知道了";
+      this.show = true;
+    },
+    showConfirm() {
+      this.title = "我是标题";
+      this.content = "我是内容";
+      this.showCancel = true;
+      this.confirmText = "好的";
+      this.cancelText = "暂不";
+      this.show = true;
+    },
+    showCustom() {
+      this.custom = true;
+      setTimeout(() => {
+        this.custom = false;
+      }, 1000);
+    },
+    closeEvent() {},
+    confirmEvent() {
+      this.show = false;
+    },
+    cancelEvent() {
+      this.show = false;
+    }
+  }
+
+  beforeCreate() {
+  }
+
+  created() {
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new CDialog();
+</script>
+<style scoped>
+.btn {
+  margin-top: 20cpx;
+  align-self: center;
+}
+.custom-header {
+  font-size: 32cpx;
+  padding: 30cpx 20cpx;
+}
+.custom-content {
+  padding: 60cpx;
+  font-size: 28cpx;
+  text-align: center;
+  color: #666;
+}
+.custom-footer {
+  text-align: center;
+  border-top: 1cpx solid #f0f0f0;
+  padding: 30cpx 0;
+  font-size: 24cpx;
+  font-size: 32cpx;
+  color: #fc9153;
+}
+</style>
+<script cml-type="json">
+{
+    "base": {
+        "usingComponents": {
+          "c-header": "../../components/header/header",
+          "mp-dialog": "@didi/chameleon-ui-miniapp/mp-dialog/mp-dialog"
+        }
+    },
+    "wx": {
+        "navigationBarTitleText": "index",
+        "backgroundTextStyle": "dark",
+        "backgroundColor": "#E2E2E2"
+
+    }
+}
+</script>

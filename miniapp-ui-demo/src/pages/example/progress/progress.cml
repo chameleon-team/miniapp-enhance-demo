@@ -1,0 +1,43 @@
+<template>
+<page title="progress演示">
+  <c-header title="progress"></c-header>
+  <mp-progress class="progress" percent="{{20}}" show-info />
+  <mp-progress class="progress" percent="{{40}}" stroke-width="{{12}}" />
+  <mp-progress class="progress" percent="{{60}}" activeColor="pink" />
+  <mp-progress class="progress" percent="{{80}}" active />
+</page>
+</template>
+<script>
+class MovableView {
+
+  data = {
+    extraData: {
+      isGetLogin: 1
+    }
+  }
+
+  methods = {
+  }
+}
+
+export default new MovableView();
+</script>
+<style scoped>
+.progress {
+  padding: 30cpx;
+  padding-bottom: 0;
+}
+</style>
+<script cml-type="json">
+{
+    "base": {
+        "usingComponents": {
+          "c-header": "../../components/header/header",
+          "mp-progress": "@didi/chameleon-ui-miniapp/mp-progress/mp-progress"
+        },
+        "navigationBarTitleText": "radio",
+        "backgroundTextStyle": "dark",
+        "backgroundColor": "#E2E2E2"
+    }
+}
+</script>

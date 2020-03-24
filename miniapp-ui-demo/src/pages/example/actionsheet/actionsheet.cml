@@ -1,0 +1,85 @@
+<template>
+<page title="actionsheet演示">
+  <c-header title="actionsheet"></c-header>
+  <button class="btn" c-bind:onclick="showActionSheet" text="ActionSheet"></button>
+  <mp-actionsheet
+      item-list="{{ list }}"
+      show="{{ actionShow }}"
+      c-bind:select="select"
+      c-bind:cancel="cancel"
+  ></mp-actionsheet>
+</page>
+</template>
+<script>
+import cml from 'chameleon-api';
+class CActionsheet {
+  data = {
+    actionShow: false,
+    list: ["高铁", "火车", "飞机", "打车", "地铁"]
+  }
+
+  computed = {
+  }
+
+  watch  = {
+  }
+
+  methods = {
+    showActionSheet() {
+      this.actionShow = true;
+    },
+    select(e) {
+      this.actionShow = false;
+      cml.showToast({
+        message: "Clicked" + " " + this.list[e.detail.index]
+      });
+    },
+    cancel () {
+      this.actionShow = false;
+    }
+  }
+
+  beforeCreate() {
+  }
+
+  created() {
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new CActionsheet();
+</script>
+<style scoped>
+.btn {
+  margin-top: 20cpx;
+  align-self: center;
+}
+
+</style>
+<script cml-type="json">
+{
+    "base": {
+        "usingComponents": {
+            "c-header": "../../components/header/header",
+            "mp-actionsheet": "@didi/chameleon-ui-miniapp/mp-actionsheet/mp-actionsheet"
+        }
+    },
+    "wx": {
+        "navigationBarTitleText": "index",
+        "backgroundTextStyle": "dark",
+        "backgroundColor": "#E2E2E2"
+
+    }
+}
+</script>

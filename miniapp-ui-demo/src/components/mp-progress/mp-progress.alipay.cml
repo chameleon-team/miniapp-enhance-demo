@@ -1,0 +1,66 @@
+<template>
+  <origin-progress
+    percent="{{percent}}"
+    show-info="{{showInfo}}"
+    stroke-width="{{strokeWidth}}"
+    active-color="{{activeColor}}"
+    background-color="{{backgroundColor}}"
+    active="{{active}}"
+  ></origin-progress>
+</template>
+<script>
+  import cml from 'chameleon-api'
+  class Progress implements ProgressInterface {
+    props = {
+      //all、vertical、horizontal、none
+      percent: {
+        type: Number,
+        default: 0
+      },
+      showInfo: {
+        type: Boolean,
+        default: false
+      },
+      strokeWidth: {
+        type: Number,
+        default: 6
+      },
+      activeColor: {
+        type: String,
+        default: '#09BB07'
+      },
+      backgroundColor: {
+        type: String,
+        default: '#EBEBEB'
+      },
+      active: {
+        type: Boolean,
+        default: false
+      }
+    }
+    data = {
+    }
+    computed = {
+    }
+    watch = {
+    }
+    methods = {
+    }
+    mounted () {
+    }
+  }
+
+  export default new Progress();
+
+</script>
+
+<style scoped>
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "component": true
+  }
+}
+</script>

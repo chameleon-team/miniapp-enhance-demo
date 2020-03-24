@@ -1,0 +1,46 @@
+<template>
+<page title="picker演示">
+  <c-header title="picker"></c-header>
+  <mp-picker c-bind:change="bindPickerChange" value="{{index}}" range="{{array}}">
+    <view class="picker">
+      当前选择：{{array[index]}}
+    </view>
+  </mp-picker>
+</page>
+</template>
+<script>
+class MovableView {
+
+  data = {
+    array: ['美国', '中国', '巴西', '日本'],
+    index: 0
+  }
+
+  methods = {
+    bindPickerChange(e) {
+      this.index = e.detail.value
+      console.log(e)
+    }
+  }
+}
+
+export default new MovableView();
+</script>
+<style scoped>
+.picker {
+  text-align: center;
+}
+</style>
+<script cml-type="json">
+{
+    "base": {
+        "usingComponents": {
+          "c-header": "../../components/header/header",
+          "mp-picker": "@didi/chameleon-ui-miniapp/mp-picker/mp-picker"
+        },
+        "navigationBarTitleText": "radio",
+        "backgroundTextStyle": "dark",
+        "backgroundColor": "#E2E2E2"
+    }
+}
+</script>

@@ -1,0 +1,47 @@
+<template>
+  <origin-icon
+    type="{{ type }}"
+    size="{{ size }}"
+    color="{{ color }}"
+  ></origin-icon>
+</template>
+<script>
+  class Icon implements IconInterface {
+    props = {
+      type: {
+        type: String,
+        default: 'none'
+      },
+      size: {
+        type: Number
+      },
+      color: {
+        type: String
+      },
+    }
+    data = {
+    }
+    computed = {
+    }
+    watch = {
+    }
+    methods = {
+    }
+    mounted () {
+    }
+  }
+
+  export default new Icon();
+
+</script>
+
+<style scoped>
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "component": true
+  }
+}
+</script>

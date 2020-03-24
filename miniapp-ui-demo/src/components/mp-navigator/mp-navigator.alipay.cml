@@ -1,0 +1,174 @@
+<template>
+  <view
+    style="{{ cmtStyle }}"
+    onTap="ontap">
+    <slot></slot>
+  </view>
+</template>
+
+<script>
+    //   <origin-navigator
+    //   a:if="{{target == 'self'}}"
+    //   open-type="{{ openType }}"
+    //   style="{{ cmtStyle }}"
+    //   url="{{ url }}"
+    //   >
+    //   <slot></slot>
+    // </origin-navigator>
+      // hover-class="na-hover"
+      // hover-start-time="{{ hoverStartTime }}"
+      // hover-stay-time="{{ hoverStayTime }}"
+const MethodMap = {
+  'navigate': 'navigateTo',
+  'redirect': 'redirectTo',
+  'switchTab': 'switchTab',
+  'navigateBack': 'navigateBack',
+  'reLaunch': 'reLaunch'
+}
+class Navigator implements NavigatorInterface {
+  props = {
+    target: {
+      type: String,
+      default: 'self'
+    },
+    openType: {
+      type: String,
+      default: 'navigate'
+    },
+    url: {
+      type: String,
+      default: ''
+    },
+    hoverStartTime: {
+      type: Number,
+      default: 50
+    },
+    hoverStayTime: {
+      type: Number,
+      default: 600
+    },
+    hoverStyle: {
+      type: String,
+      default: ''
+    },
+    appId: {
+      type: String,
+      default: ''
+    },
+    path: {
+      type: String,
+      default: ''
+    },
+    extraData: {
+      type: Object,
+      default: {}
+    },
+    cstyle: {
+      type: String,
+      default: ''
+    }
+    
+  }
+
+  data = {
+    isHover: false
+  }
+
+  computed = {
+    cmtStyle () {
+      if (this.isHover) {
+        console.log(this.cstyle + this.hoverStyle)
+        return this.cstyle + this.hoverStyle;
+      }
+      return this.cstyle;
+    }
+  }
+
+  watch = {
+    isHover (val) {
+      console.log('isHover', val)
+    }
+  }
+
+  methods = {
+    jump () {
+      if (this.target === 'self') {
+        let method = MethodMap[this.openType];
+        let params = this.url ? {
+          url: this.url
+        } : {};
+        my[method](params);
+        return;
+      }
+      //跳转其他小程序
+      my.navigateToMiniProgram({
+        appId: this.appId,
+        extraData: this.extraData,
+        path: this.path || "",
+        success: (res) => {
+          this.$cmlEmit('success', {
+            errMsg: res.message
+          });
+          console.log(JSON.stringify(res));
+        },
+        fail: (res) => {
+          this.$cmlEmit('fail', {
+            errMsg: res.message
+          });
+          console.log(JSON.stringify(res));
+        },
+        complete: (res) => {
+          this.$cmlEmit('complete', {
+            errMsg: res.message
+          });
+          console.log(JSON.stringify(res));
+        }
+      });
+    },
+    ontap (e) {
+      console.log('----ontap---', e)
+      setTimeout(() => {
+        this.isHover = true;
+        setTimeout(() => {
+          this.isHover = false;
+        }, this.hoverStayTime);
+        setTimeout(() => {
+          this.jump();
+        });
+      }, this.hoverStartTime);
+    }
+  }
+
+  beforeCreate() {
+  }
+
+  created() {
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new Navigator();
+</script>
+
+<style >
+
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  }
+}
+</script>

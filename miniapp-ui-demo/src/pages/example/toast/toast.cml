@@ -1,0 +1,106 @@
+<template>
+<page title="toast演示">
+  <c-header title="toast"></c-header>
+  <mp-toast 
+    duration="{{duration}}"
+    show="{{show}}"
+    title="{{title}}"
+    icon="{{icon}}"
+    c-bind:changeshow="onchangeShow"
+  ></mp-toast>
+  <!--<button class="btn" c-bind:onclick="showLoading" text="loading toast"></button>-->
+  <button class="btn" c-bind:onclick="showTextLoading" text="loading text toast"></button>
+  <button class="btn" c-bind:onclick="showSuccess" text="success toast"></button>
+  <button class="btn" c-bind:onclick="showText" text="toast without icon"></button>
+</page>
+</template>
+<script>
+class CToast {
+
+  data = {
+    show: false,
+    title: "",
+    duration: 1000,
+    icon: 'success'
+  }
+
+  computed = {
+  }
+
+  watch  = {
+  }
+
+  methods = {
+    showLoading() {
+      this.title = "";
+      this.duration = 2000;
+      this.icon = 'loading';
+      this.show = true;
+    },
+    showTextLoading() {
+      this.title = "加载中...";
+      this.duration = 1000;
+      this.icon = 'loading';
+      this.show = true;
+    },
+    showSuccess() {
+      this.title = "success toast";
+      this.duration = 1000;
+      this.icon = 'success';
+      this.show = true;
+    },
+    showText() {
+      this.title = "I'm a toast!";
+      this.duration = 1000;
+      this.icon = 'none';
+      this.show = true;
+    },
+    onchangeShow (e) {
+      this.show = e.detail.show;
+    }
+  }
+  
+
+  beforeCreate() {
+  }
+
+  created() {
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new CToast();
+</script>
+<style scoped>
+.btn {
+  margin-top: 20cpx;
+  align-self: center;
+}
+</style>
+<script cml-type="json">
+{
+    "base": {
+        "usingComponents": {
+          "c-header": "../../components/header/header",
+          "mp-toast": "@didi/chameleon-ui-miniapp/mp-toast/mp-toast"
+        }
+    },
+    "wx": {
+        "navigationBarTitleText": "index",
+        "backgroundTextStyle": "dark",
+        "backgroundColor": "#E2E2E2"
+
+    }
+}
+</script>

@@ -1,0 +1,28 @@
+{
+  "name": "chameleon-ui-miniapp",
+  "version": "0.0.1",
+  "description": "Chameleon跨多端小程序组件",
+  "main": "index.js",
+  "author": {
+    "name": "Chameleon-Team",
+    "email": "ChameleonCore@didiglobal.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {},
+  "keywords": [
+    "chameleon"
+  ],
+  "license": "Apache",
+  "devDependencies": {
+    "@didi/chameleon-ui-miniapp": "0.0.2",
+    "chameleon-runtime": "^1.0.0",
+    "fs-extra": "^7.0.1"
+  },
+  "dependencies": {
+    "chameleon-api": "^1.0.3-alpha.1",
+    "chameleon-store": "^1.0.0"
+  }
+}

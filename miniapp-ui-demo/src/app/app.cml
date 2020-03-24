@@ -1,0 +1,47 @@
+<template>
+  <view class="app-root">
+    <router-view></router-view>
+  </view>
+</template>
+
+<script>
+class App {
+  created(res) {
+  }
+}
+
+export default new App();
+</script>
+
+<style scoped>
+/* reset */
+/*只作用于 web body下的first-child 节点*/
+.app-root {
+  position: absolute;
+  top: 0cpx;
+  bottom: 0cpx;
+  left: 0cpx;
+  right: 0cpx;
+}
+</style>
+
+<script cml-type="json">
+{
+  "wx": {
+    "window": {
+      "backgroundTextStyle": "light",
+      "navigationBarBackgroundColor": "#ffffff",
+      "navigationBarTitleText": "CNODE",
+      "navigationBarTextStyle": "black"
+    },
+    "permission": {
+      "scope.userLocation": {
+        "desc": "请求使用你的位置信息"
+      }
+    },
+    "navigateToMiniProgramAppIdList": [
+      "wxaf35009675aa0b2a"
+    ]
+  }
+}
+</script>

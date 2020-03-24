@@ -1,0 +1,40 @@
+<template>
+<page title="webview演示">
+  <c-header title="webview"></c-header>
+  <mp-web-view src="https://cmljs.org/cml-demo/dist/web/cml-demo.html#/"></mp-web-view>
+</page>
+</template>
+<script>
+class webView {
+
+  data = {
+  }
+
+  methods = {
+  }
+}
+
+export default new webView();
+</script>
+<style scoped>
+.container {
+  position: absolute;
+  top: 88cpx;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+</style>
+<script cml-type="json">
+{
+    "base": {
+        "usingComponents": {
+          "c-header": "../../components/header/header",
+          "mp-web-view": "@didi/chameleon-ui-miniapp/mp-web-view/mp-web-view"
+        },
+        "navigationBarTitleText": "radio",
+        "backgroundTextStyle": "dark",
+        "backgroundColor": "#E2E2E2"
+    }
+}
+</script>

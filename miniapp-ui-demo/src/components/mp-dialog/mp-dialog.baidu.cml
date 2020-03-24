@@ -1,0 +1,107 @@
+<template>
+  <view></view>
+</template>
+
+<script>
+
+class MpDialog implements MpDialogInterface {
+  props = {
+    title: {
+      type: String,
+      default: ''
+    },
+    content: {
+      type: String,
+      default: ''
+    },
+    showCancel: {
+      type: Boolean,
+      default: true
+    },
+    cancelText: {
+      type: String,
+      default: '取消'
+    },
+    confirmText: {
+      type: String,
+      default: '确定'
+    },
+    show: {
+      type: Boolean,
+      default: false
+    }
+  }
+
+  data = {
+  }
+
+  computed = {
+  }
+
+  watch = {
+    show (val) {
+      if (val) {
+        this.onShow();
+      }
+    }
+  }
+
+  methods = {
+    onShow () {
+      const self = this;
+      swan.showModal({
+        title: this.title,
+        content: this.content,
+        showCancel: this.showCancel,
+        cancelText: this.cancelText,
+        confirmText: this.confirmText,
+        confirmColor: '#576B95',
+        success (res) {
+          console.log('success')
+          if (res.confirm) {
+            self.$cmlEmit('confirm');
+          } else {
+            self.$cmlEmit('cancel');
+          }
+        }
+      })
+    },
+    hide () {}
+  }
+
+  beforeCreate() {
+  }
+
+  created() {
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+    if (this.show) {
+      this.onShow();
+    }
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new MpDialog();
+</script>
+
+<style >
+
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  }
+}
+</script>

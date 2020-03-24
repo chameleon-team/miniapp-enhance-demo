@@ -1,0 +1,147 @@
+<template>
+  <view>
+  </view>
+</template>
+
+<script>
+
+class MpToast implements MpToastInterface {
+  props = {
+    title: {
+      type: String,
+      default: ''
+    },
+    icon: {
+      type: String,
+      default: 'success'
+    },
+    duration: {
+      type: Number,
+      default: 1500
+    },
+    show: {
+      type: Boolean,
+      default: false
+    }
+  }
+
+  data = {
+    isShown: false
+  }
+
+  computed = {
+  }
+
+  watch = {
+    show (val) {
+      if (val) {
+        this.onShow();
+      } else {
+        this.onHide();
+      }
+    }
+  }
+
+  methods = {
+    onShow () {
+      if (this.icon === 'loading') {
+        this.showLoading();
+      } else {
+        this.showToast();
+      }
+      this.isShown = true;
+    },
+    showToast () {
+      swan.showToast({
+        title: this.title,
+        type: this.icon,
+        duration: this.duration,
+        success: () => {
+          this.$cmlEmit('success');
+        },
+        fail: () => {
+          this.$cmlEmit('fail');
+        },
+        complete: () => {
+          this.$cmlEmit('complete');
+        }
+      });
+      setTimeout(() => {
+        this.$cmlEmit('changeshow', {
+          show: false
+        });
+        this.isShown = false;
+      }, this.duration);
+    },
+    showLoading () {
+      swan.showLoading({
+        title: this.title,
+        success: () => {
+          this.$cmlEmit('success');
+        },
+        fail: () => {
+          this.$cmlEmit('fail');
+        },
+        complete: () => {
+          this.$cmlEmit('complete');
+          setTimeout(() => {
+            swan.hideLoading();
+            this.isShown = false;
+            this.$cmlEmit('changeshow', {
+              show: false
+            });
+          }, this.duration);
+        }
+      });
+    },
+    onHide () {
+      if (!this.isShown) return;
+      if (this.icon === 'loading') {
+        swan.hideLoading();
+      } else {
+        swan.hideToast();
+      }
+      this.$cmlEmit('changeshow', {
+        show: true
+      });
+    }
+  }
+
+  beforeCreate() {
+  }
+
+  created() {
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+    if (this.show) {
+      this.onShow();
+    } else {
+      this.onHide();
+    }
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new MpToast();
+</script>
+
+<style >
+
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  }
+}
+</script>

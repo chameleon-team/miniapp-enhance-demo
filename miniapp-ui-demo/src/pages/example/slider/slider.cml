@@ -1,0 +1,74 @@
+<template>
+<page title="slider演示">
+  <c-header title="slider"></c-header>
+  <view class="section section_gap">
+    <text class="section__title">设置step</text>
+    <view class="body-view">
+      <mp-slider c-bind:change="slider2change" c-bind:changing="slider2changing" step="{{5}}"/>
+    </view>
+  </view>
+  
+  <view class="section section_gap">
+    <text class="section__title">显示当前value</text>
+    <view class="body-view">
+      <mp-slider c-bind:change="slider3change" c-bind:changing="slider3changing" show-value/>
+    </view>
+  </view>
+  
+  <view class="section section_gap">
+    <text class="section__title">设置最小/最大值</text>
+    <view class="body-view">
+      <mp-slider c-bind:change="slider4change" c-bind:changing="slider4changing" min="{{50}}" max="{{200}}" show-value/>
+    </view>
+  </view>
+</page>
+</template>
+<script>
+class MovableView {
+
+  data = {
+  }
+
+  methods = {
+    slider2change(e) {
+      console.log('slider2change当前值为: ', e.detail.value)
+    },
+    slider3change(e) {
+      console.log('slider3change当前值为: ', e.detail.value)
+    },
+    slider4change(e) {
+      console.log('slider4change当前值为: ', e.detail.value)
+    },
+    slider2changing(e) {
+      console.log('slider2changing当前值为: ', e.detail.value)
+    },
+    slider3changing(e) {
+      console.log('slider3changing当前值为: ', e.detail.value)
+    },
+    slider4changing(e) {
+      console.log('slider4changing当前值为: ', e.detail.value)
+    },
+  }
+}
+
+export default new MovableView();
+</script>
+<style scoped>
+.section {
+  padding: 30cpx;
+  padding-bottom: 0;
+}
+</style>
+<script cml-type="json">
+{
+    "base": {
+        "usingComponents": {
+          "c-header": "../../components/header/header",
+          "mp-slider": "@didi/chameleon-ui-miniapp/mp-slider/mp-slider"
+        },
+        "navigationBarTitleText": "radio",
+        "backgroundTextStyle": "dark",
+        "backgroundColor": "#E2E2E2"
+    }
+}
+</script>

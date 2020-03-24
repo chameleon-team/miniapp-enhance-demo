@@ -1,0 +1,78 @@
+{
+  "mode": "history",
+  "domain": "https://www.chameleon.com",
+  "routes":[
+    {
+      "url": "/pages/index/index",
+      "path": "/pages/index/index",
+      "name": "首页",
+      "mock": "index.php"
+    },
+    {
+      "name": "movable-view",
+      "url": "/pages/example/movable-view/movable-view",
+      "path": "/pages/example/movable-view/movable-view",
+      "mock": "index.php"
+    },
+    {
+      "name": "web-view",
+      "url": "/pages/example/web-view/web-view",
+      "path": "/pages/example/web-view/web-view",
+      "mock": "index.php"
+    },
+    {
+      "name": "toast",
+      "url": "/pages/example/toast/toast",
+      "path": "/pages/example/toast/toast",
+      "mock": "index.php"
+    },
+    {
+      "name": "dialog",
+      "url": "/pages/example/dialog/dialog",
+      "path": "/pages/example/dialog/dialog",
+      "mock": "index.php"
+    },
+    {
+      "name": "actionsheet",
+      "url": "/pages/example/actionsheet/actionsheet",
+      "path": "/pages/example/actionsheet/actionsheet",
+      "mock": "index.php"
+    },
+    {
+      "name": "canvas",
+      "url": "/pages/example/canvas/canvas",
+      "path": "/pages/example/canvas/canvas",
+      "mock": "index.php"
+    },
+    {
+      "name": "icon",
+      "url": "/pages/example/icon/icon",
+      "path": "/pages/example/icon/icon",
+      "mock": "index.php"
+    },
+    {
+      "name": "slider",
+      "url": "/pages/example/slider/slider",
+      "path": "/pages/example/slider/slider",
+      "mock": "index.php"
+    },
+    {
+      "name": "picker",
+      "url": "/pages/example/picker/picker",
+      "path": "/pages/example/picker/picker",
+      "mock": "index.php"
+    },
+    {
+      "name": "progress",
+      "url": "/pages/example/progress/progress",
+      "path": "/pages/example/progress/progress",
+      "mock": "index.php"
+    },
+    {
+      "name": "navigator",
+      "url": "/pages/example/navigator/navigator",
+      "path": "/pages/example/navigator/navigator",
+      "mock": "index.php"
+    }
+  ]
+}

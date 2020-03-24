@@ -1,0 +1,67 @@
+<template>
+  <origin-movable-area style="{{areaStyle}}">
+    <origin-movable-view
+      direction="{{ direction }}"
+      x="{{ x }}"
+      y="{{ y }}"
+      disabled="{{ disabled }}"
+      style="{{cstyle}}"
+      onChange="changeHandler"
+    ></origin-movable-view>
+  </origin-movable-area>
+</template>
+<script>
+  import cml from 'chameleon-api'
+  class MovableView implements MovableViewInterface {
+    props = {
+      //all、vertical、horizontal、none
+      direction: {
+        type: String,
+        default: 'none'
+      },
+      x: {
+        type: Number
+      },
+      y: {
+        type: Number
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      cstyle: {
+        type: String
+      },
+      areaStyle: {
+        type: String
+      }
+    }
+    data = {
+    }
+    computed = {
+    }
+    watch = {
+    }
+    methods = {
+      changeHandler(e) {
+        this.$cmlEmit('change', e.detail);
+      }
+    }
+    mounted () {
+    }
+  }
+
+  export default new MovableView();
+
+</script>
+
+<style scoped>
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "component": true
+  }
+}
+</script>

@@ -1,0 +1,115 @@
+<template>
+  <view>
+  </view>
+</template>
+
+<script>
+
+class MpToast implements MpToastInterface {
+  props = {
+    title: {
+      type: String,
+      default: ''
+    },
+    icon: {
+      type: String,
+      default: 'success'
+    },
+    duration: {
+      type: Number,
+      default: 1500
+    },
+    show: {
+      type: Boolean,
+      default: false
+    }
+  }
+
+  data = {
+    isShown: false
+  }
+
+  computed = {
+  }
+
+  watch = {
+    show (val) {
+      if (val) {
+        this.showToast();
+      } else {
+        this.hideToast();
+      }
+    }
+  }
+
+  methods = {
+    showToast () {
+      this.isShown = true;
+      wx.showToast({
+        title: this.title,
+        icon: this.icon,
+        duration: this.duration,
+        success: () => {
+          this.$cmlEmit('success');
+        },
+        fail: () => {
+          this.$cmlEmit('fail');
+        },
+        complete: () => {
+          this.$cmlEmit('complete');
+        },
+      });
+      setTimeout(() => {
+        this.$cmlEmit('changeshow', {
+          show: !this.show
+        });
+        this.isShown = false;
+      }, this.duration);
+    },
+    hideToast () {
+      if (!this.isShown) return;
+      wx.hideToast();
+      this.$cmlEmit('changeshow', {
+        show: !this.show
+      });
+    }
+  }
+
+  beforeCreate() {
+  }
+
+  created() {
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+    if (this.show) {
+      this.showToast();
+    } else {
+      this.hideToast();
+    }
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new MpToast();
+</script>
+
+<style >
+
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  }
+}
+</script>

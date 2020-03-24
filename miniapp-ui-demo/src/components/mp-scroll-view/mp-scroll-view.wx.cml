@@ -1,0 +1,106 @@
+<template>
+  <origin-scroll-view
+    scroll-x="{{ scrollX }}"
+    scroll-y="{{ scrollY }}"
+    upper-threshold="{{ upperThreshold }}"
+    scroll-with-animation="{{ scrollWithAnimation }}"
+    lower-threshold="{{ lowerThreshold }}"
+    enable-back-to-top="{{ enableBackToTop }}"
+    scroll-into-view="{{ scrollIntoView }}"
+    class="mp-scroll-view"
+    scroll-top="{{ scrollTopPx }}"
+    scroll-left="{{ scrollLeftPx }}"
+    bindscrolltoupper="scrollToUpperHandler"
+    bindscrolltolower="scrollToLowerHandler"
+    bindscroll="scrollHandler"
+    style="{{cstyle}}"
+  >
+      <slot></slot>
+  </origin-scroll-view>
+</template>
+<script>
+  import cml from 'chameleon-api'
+  class Scroller implements ScrollerInterface {
+    props = {
+      scrollX: {
+        type: Boolean,
+        default: false
+      },
+      scrollY: {
+        type: Boolean,
+        default: false
+      },
+      upperThreshold: {
+        type: Number,
+        default: 50
+      },
+      lowerThreshold: {
+        type: Number,
+        default: 50
+      },
+      scrollTop: {
+        type: Number
+      },
+      scrollLeft: {
+        type: Number
+      },
+      // scrollIntoView 微信小程序不能支持slot方式插入的内部元素
+      // scrollIntoView: {
+      //   type: String
+      // },
+      scrollWithAnimation: {
+        type: Boolean,
+        default: false
+      },
+      enableBackToTop: {
+        type: Boolean,
+        default: false
+      },
+      cstyle: {
+        type: String
+      }
+    }
+    data = {
+      scrollTopPx: 0,
+      scrollLeftPx: 0
+    }
+
+    computed = {
+    }
+    watch = {
+      scrollTop(v) {
+        this.scrollTopPx = cml.cpx2px(v);
+      },
+      scrollLeft(v) {
+        this.scrollLeftPx = cml.cpx2px(v);
+      }
+    }
+    methods = {
+      scrollToUpperHandler(e) {
+        this.$cmlEmit('scrolltoupper');
+      },
+      scrollToLowerHandler (e) {
+        this.$cmlEmit('scrolltolower');
+      },
+      scrollHandler (e) {
+        this.$cmlEmit('scroll', e.detail);
+      }
+    }
+    mounted () {
+    }
+  }
+
+  export default new Scroller();
+
+</script>
+
+<style scoped>
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "component": true
+  }
+}
+</script>

@@ -1,0 +1,72 @@
+<template>
+  <origin-web-view
+    src="{{ src }}"
+    bindmessage="onMessage">
+  </origin-web-view>
+</template>
+
+<script>
+
+class MpWebView implements MpWebViewInterface {
+  props = {
+    src: {
+      type: String,
+      default: ''
+    }
+  }
+
+  data = {
+  }
+
+  computed = {
+  }
+
+  watch = {
+  }
+
+  methods = {
+    onMessage (e) {
+      console.log(e)
+      let data = e.detail.data;
+      if (data) {
+        data = typeof data === 'object'? JSON.stringify(data): data;
+      }
+      this.$cmlEmit('message', {
+        data: data
+      });
+    }
+  }
+
+  beforeCreate() {
+  }
+
+  created() {
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new MpWebView();
+</script>
+
+<style >
+
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  }
+}
+</script>

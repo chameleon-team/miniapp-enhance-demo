@@ -1,0 +1,61 @@
+<template>
+  <origin-picker
+    disabled="{{ disabled }}"
+    range="{{ range }}"
+    range-key="{{ rangeKey }}"
+    value="{{ value }}"
+    bindchange="bindPickerChange"
+  >
+    <view>
+      <slot></slot>
+    </view>
+  </origin-picker>
+</template>
+<script>
+  class Picker implements PickerInterface {
+    props = {
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      range: {
+        type: Array,
+        default: []
+      },
+      rangeKey: {
+        type: String
+      },
+      value: {
+        type: Number,
+        default: 0
+      },
+    }
+    data = {
+    }
+    computed = {
+    }
+    watch = {
+    }
+    methods = {
+      bindPickerChange(e) {
+        this.$cmlEmit('change', {value: +e.detail.value})
+      }
+    }
+    mounted () {
+    }
+  }
+
+  export default new Picker();
+
+</script>
+
+<style scoped>
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "component": true
+  }
+}
+</script>

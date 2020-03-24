@@ -1,0 +1,92 @@
+<template>
+  <origin-slider
+    min="{{ min }}"
+    max="{{ max }}"
+    step="{{ step }}"
+    value="{{ value }}"
+    blockSize="{{ blockSize }}"
+    disabled="{{ disabled }}"
+    showValue="{{ showValue }}"
+    backgroundColor="{{ backgroundColor }}"
+    activeColor="{{ activeColor }}"
+    blockColor="{{ blockColor }}"
+    bindchange="bindChange"
+    bindchanging="bindChanging"
+  ></origin-slider>
+</template>
+<script>
+  class Slider implements SliderInterface {
+    props = {
+      min: {
+        type: Number,
+        default: 0
+      },
+      max: {
+        type: Number,
+        default: 100
+      },
+      step: {
+        type: Number,
+        default: 1
+      },
+      value: {
+        type: Number,
+        default: 0
+      },
+      blockSize: {
+        type: Number,
+        default: 28
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      showValue: {
+        type: Boolean,
+        default: false
+      },
+      backgroundColor: {
+        type: String,
+        default: '#e9e9e9'
+      },
+      activeColor: {
+        type: String,
+        default: '#1aad19'
+      },
+      blockColor: {
+        type: String,
+        default: '#ffffff'
+      },
+    }
+    data = {
+    }
+    computed = {
+    }
+    watch = {
+    }
+    methods = {
+      bindChange(e) {
+        this.$cmlEmit('change', {value: +e.detail.value})
+      },
+      bindChanging(e) {
+        this.$cmlEmit('changing', {value: +e.detail.value})
+      },
+    }
+    mounted () {
+    }
+  }
+
+  export default new Slider();
+
+</script>
+
+<style scoped>
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "component": true
+  }
+}
+</script>

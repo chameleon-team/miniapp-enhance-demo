@@ -1,0 +1,136 @@
+<template>
+  <origin-navigator
+    target="{{ target }}"
+    open-type="{{ openType }}"
+    style="{{ cmtStyle }}"
+    app-id="{{ appId }}"
+    path="{{ path }}"
+    url="{{ url }}"
+    extra-data="{{ extraData }}"
+    bindsuccess="onSuccess"
+    bindfail="onFail"
+    bindcomplete="onComplete"
+    bindtap="ontap"
+    hover-class="none"
+    >
+    <slot></slot>
+  </origin-navigator>
+</template>
+
+<script>
+
+class Navigator implements NavigatorInterface {
+  props = {
+    target: {
+      type: String,
+      default: 'self'
+    },
+    openType: {
+      type: String,
+      default: 'navigate'
+    },
+    url: {
+      type: String,
+      default: ''
+    },
+    hoverStartTime: {
+      type: Number,
+      default: 50
+    },
+    hoverStayTime: {
+      type: Number,
+      default: 600
+    },
+    hoverStyle: {
+      type: String,
+      default: ''
+    },
+    appId: {
+      type: String,
+      default: ''
+    },
+    path: {
+      type: String,
+      default: ''
+    },
+    extraData: {
+      type: Object,
+      default: {}
+    },
+    cstyle: {
+      type: String,
+      default: ''
+    }
+  }
+
+  data = {
+    isHover: false
+  }
+
+  computed = {
+    cmtStyle () {
+      if (this.isHover) {
+        return this.cstyle + this.hoverStyle;
+      }
+      return this.cstyle;
+    }
+  }
+
+  watch = {
+  }
+
+  methods = {
+    onSuccess (e) {
+      this.$cmlEmit('success', e.detail);
+      // console.log('onSuccess', e)
+    },
+    onFail (e) {
+      this.$cmlEmit('fail', e.detail);
+      // console.log('onFail', e)
+    },
+    onComplete (e) {
+      this.$cmlEmit('complete', e.detail);
+      // console.log('onComplete', e)
+    },
+    ontap (e) {
+      setTimeout(() => {
+        this.isHover = true;
+        setTimeout(() => {
+          this.isHover = false;
+        }, this.hoverStayTime);
+      }, this.hoverStartTime);
+    }
+  }
+
+  beforeCreate() {
+  }
+
+  created() {
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new Navigator();
+</script>
+
+<style >
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  }
+}
+</script>

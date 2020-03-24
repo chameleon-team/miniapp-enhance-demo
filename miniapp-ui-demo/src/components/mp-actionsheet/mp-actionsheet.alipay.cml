@@ -1,0 +1,90 @@
+<template>
+  <view>
+  </view>
+</template>
+
+<script>
+
+class MpActionsheet implements MpActionsheetInterface {
+  props = {
+    itemList: {
+      type: Array,
+      default: []
+    },
+    show: {
+      type: Boolean,
+      default: false
+    }
+  }
+
+  data = {
+  }
+
+  computed = {
+  }
+
+  watch = {
+    show (val) {
+      if (val) {
+        this.onShow();
+      }
+    }
+  }
+
+  methods = {
+    onShow () {
+      my.showActionSheet({
+        items: this.itemList,
+        success: (res) => {
+          console.log(res.index);
+          if (res.index == -1) {
+            this.$cmlEmit('cancel');
+            return
+          }
+          this.$cmlEmit('select', {
+            index: res.index
+          });
+        },
+        fail: (res) => {
+          this.$cmlEmit('cancel');
+        }
+      })
+    }
+  }
+
+  beforeCreate() {
+  }
+
+  created() {
+  }
+
+  beforeMount() {
+  }
+
+  mounted() {
+    if (this.show) {
+      this.onShow();
+    }
+  }
+
+  beforeDestroy() {
+  }
+
+  destroyed() {
+  }
+}
+
+export default new MpActionsheet();
+</script>
+
+<style >
+
+</style>
+
+<script cml-type="json">
+{
+  "base": {
+    "usingComponents": {}
+  }
+}
+</script>

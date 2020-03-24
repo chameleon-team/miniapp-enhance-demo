@@ -1,0 +1,88 @@
+<template>
+<page title="movable-view演示">
+  <c-header title="movable-view"></c-header>
+    <text class="title-text">movable-view区域小于movable-area</text>
+    <mp-movable-view 
+      cstyle="height:50px;width:50px;background:blue;"
+      area-style="width:200px;height:200px;background:grey;margin:0 auto;"
+      x="{{x}}"
+      y="{{y}}"
+      direction="all"
+      c-bind:change="changeHandler"
+    >
+    </mp-movable-view>
+    <text class="title-text">movable-view区域大于movable-area</text>
+    <mp-movable-view 
+      cstyle="height:200px;width:200px;background:blue;"
+      area-style="width:200px;height:200px;background:grey;margin:0 auto;"
+      x="{{x}}"
+      y="{{y}}"
+      direction="all"
+      c-bind:change="changeHandler"
+    >
+    </mp-movable-view>
+    <text class="title-text">只可以横向移动</text>
+    <mp-movable-view 
+      cstyle="height:50px;width:50px;background:blue;"
+      area-style="width:200px;height:200px;background:grey;margin:0 auto;"
+      x="{{x}}"
+      y="{{y}}"
+      direction="horizontal"
+      c-bind:change="changeHandler"
+    >
+    </mp-movable-view>
+    <text class="title-text">只可以竖向移动</text>
+    <mp-movable-view 
+      cstyle="height:50px;width:50px;background:blue;"
+      area-style="width:200px;height:200px;background:grey;margin:0 auto;"
+      x="{{x}}"
+      y="{{y}}"
+      direction="vertical"
+      c-bind:change="changeHandler"
+    >
+    </mp-movable-view>
+</page>
+</template>
+<script>
+class MovableView {
+
+  data = {
+    x: 0,
+    y: 0
+  }
+
+  methods = {
+    changeHandler (e) {
+      console.log('change', e.detail);
+    },
+  }
+}
+
+export default new MovableView();
+</script>
+<style scoped>
+.container {
+  position: absolute;
+  top: 88cpx;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+ .title-text {
+   margin: 30cpx 20cpx;
+   font-size: 32cpx;
+ }
+</style>
+<script cml-type="json">
+{
+    "base": {
+        "usingComponents": {
+          "c-header": "../../components/header/header",
+          "mp-movable-view": "@didi/chameleon-ui-miniapp/mp-movable-view/mp-movable-view"
+        },
+        "navigationBarTitleText": "radio",
+        "backgroundTextStyle": "dark",
+        "backgroundColor": "#E2E2E2"
+    }
+}
+</script>
