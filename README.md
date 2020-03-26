@@ -1,6 +1,11 @@
 
 # 本demo主要提供小程序增强相关的使用
 
+安装最新版本chameleon-tool 
+
+```
+npm i chameleon-tool@1.0.5 -g
+```
 
 ## 配置能力
 
