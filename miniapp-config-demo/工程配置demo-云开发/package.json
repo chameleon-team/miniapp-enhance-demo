@@ -1,5 +1,5 @@
 {
-  "name": "miniapp-config-test",
+  "name": "cloud-demo-step",
   "version": "1.0.0",
   "description": "A chameleon project",
   "author": "",
@@ -7,12 +7,10 @@
   "scripts": {},
   "license": "MIT",
   "dependencies": {
-    "@cmlkit/light-ui": "0.0.1",
     "chameleon-api": "1.0.0",
     "chameleon-runtime": "1.0.0",
     "chameleon-store": "1.0.0",
     "chameleon-ui-builtin": "1.0.0",
-    "cml-ui": "1.0.0",
-    "events": "^3.1.0"
+    "cml-ui": "1.0.0"
   }
 }

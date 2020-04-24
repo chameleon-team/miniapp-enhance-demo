@@ -15,26 +15,11 @@ const wxProjectConfig = {
   "simulatorPluginLibVersion": {},
   "condition": {}
 }
-const ttProjectConfig = {
-  "setting": {
-      "urlCheck": false,
-      "es6": false,
-      "postcss": true,
-      "minified": true,
-      "newFeature": true
-  },
-  "appid": "testappId",
-  "projectname": "tt的小程序"
-}
 cml.config.merge({
   templateLang: "cml",
   templateType: "html",
-  platforms: ["web","weex","wx"],
-  enableGlobalCheck: false,
   enableLinter: false,
-  check: {
-    enable: false,
-  },
+  platforms: ["web","weex","wx","alipay","baidu","qq"],
   buildInfo: {
     wxAppId: 'touristappid'
   },
@@ -45,15 +30,6 @@ cml.config.merge({
     build: {
       apiPrefix,
       projectConfig:wxProjectConfig
-    }
-  },
-  tt: {
-    dev: {
-      projectConfig:ttProjectConfig
-    },
-    build: {
-      apiPrefix,
-      projectConfig:ttProjectConfig
     }
   },
   web: {
