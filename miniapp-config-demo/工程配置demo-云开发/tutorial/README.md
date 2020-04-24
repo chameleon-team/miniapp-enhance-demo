@@ -195,11 +195,16 @@ app.globalData.openid = res.result.openid
 store.commit('getOpenId',res.result)
 ```
 
-Store具体逻辑参考提供的demo源码
+Store具体逻辑参考提供的demo代码
 
 
+## 2.本地启动
 
+在修改完的项目中 
 
+```
+cml wx dev -n 
 
+```
 
-
+启动之后用微信开发者工具打开 dist/wx 目录即可
