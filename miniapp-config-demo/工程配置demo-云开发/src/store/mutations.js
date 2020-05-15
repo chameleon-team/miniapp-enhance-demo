@@ -6,7 +6,7 @@ export default {
     state.openid = payload.openid;
   },
   getStorage(state,payload){
-    console.log('store-getStorage')
+    console.log('store-getStorage',payload)
     state.fileID = payload.fileID;
     state.cloudPath = payload.cloudPath;
     state.imagePath = payload.imagePath;

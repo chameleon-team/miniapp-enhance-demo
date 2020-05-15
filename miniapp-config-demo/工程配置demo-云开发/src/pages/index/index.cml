@@ -72,6 +72,7 @@ class Index  {
     },
     uploadImage(){
       cml.chooseImage({type:"choice"}).then((res) => {
+        debugger;
         const filePath = res.tempFilePaths[0];
         console.log('filePath',filePath)
         const cloudPath = 'cml-x-image' + filePath.match(/\.[^.]+?$/)[0]
