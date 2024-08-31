@@ -13,6 +13,6 @@
     "chameleon-store": "0.0.3",
     "chameleon-ui-builtin": "^1.0.4-alpha.3",
     "cml-ui": "0.2.0-alpha.1",
-    "webpack": "^3.12.0"
+    "webpack": "^5.94.0"
   }
 }
